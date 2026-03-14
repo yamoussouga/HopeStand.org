@@ -11,3 +11,49 @@
 -Web Hosting (Hostinger) 
 -Open github for honorhope
 (:
+
+########################################
+#Documentation https://www.HopeStand.org
+########################################
+
+#Resources
+https://buffer.com/?utm_source=social&utm_medium=blog&utm_campaign=header-sign-up
+http://www.markammay.com/100-creative-ideas-for-a-website/
+
+#Schema
+youtube channel on track ----------- pending
+gmail account ---------------------- pending
+logo (Adobe Illustrator; https://pixlr.com/editor/)
+
+
+1.Discovery
+#Requirements: non profit website
+#Purpose: Impact communities around us.
+#Target audience: Recipient, sponsor, volunteer
+#Content of the website:
+  .Showcase non-profit project
+	.Sponsorship programs
+	.Projects programs
+	.Recipient programs
+	.Volunteer programs
+	.Funding programs
+	.eCommerce platform to raise fund for HH
+	.Divers content placeholder
+	.Legal
+	.About(mission statement...)
+	.Business bank account platform
+	.HR
+	.Finance
+	.YouTube channel
+	.Social media (Instagram, what's-up)
+	.Mailing system
+	.SMS system
+	.google workspace		
+2.Definition
+	This step use the "Discovery" phase to create site map and user interface.
+3.Design
+	The steps involves in crafting a user experience depending on the template and base on the target audience.	
+4.Development
+	The final design is implemented to create the functional website using content management system and programming codes.
+5.Deployment
+	The complete functionality of the website is tested and approved and the website files are uploaded to the server. 
