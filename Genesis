@@ -58,15 +58,35 @@ logo (Adobe Illustrator; https://pixlr.com/editor/)
 5.Deployment
 	The complete functionality of the website is tested and approved and the website files are uploaded to the server.
 
+
 :)[Basic Pages and Section on https://www.HopeStand.org]
 A.Process (strategy Brief)
+	Next we will turn strategy into content structure in a meaningfull way.
 B.Structure
 	1.Create a site map for HopeStand (page and Sections)
 	#Pages
+	.Home 
 	.About
+	.product or services page
+	.blog page
+	.contact page
+	#Sections (are like a chapters in a book or slide in a presentation)
+	.Navigation (to show what sections/content are on a page. Usualy comport a logo)	
+	.Hero section (first section on any page)
+	.Feature section (what is included in product/service)
+	.CTA section (CallToAction)
+.Testimonial (Happy customer)
+.Pricing section
 	
-	#Section
-	.Mission
+	.Gallery section
+.Contact section
+.Footer section
+.Mission
 	.Logo
+
+#Elements (Each section contains elements).
+.Type element (Font)
+.Buttons
+
 	2.Translate Site map into Wired Frame
 (:
