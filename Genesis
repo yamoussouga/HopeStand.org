@@ -1,9 +1,29 @@
+:)[HonorStand.org(roadmap)]
+#Web tools
+	#hosting
+	#bootstrap
+	#Wordpress
+	#php, MySql, eazyPhp, Xamp
+	#javascript
+#Sitemap
+#domain name with google (square space)
+	#honorhope.org registrar is on squarespace
+	#DNS records will be pointing to bluehost
+	#in squarepace i wil be able to 
+		1-foward domain
+		2-add or remove dns records
+		3-setting up google workspace
+(:
+
+
+
 #Building a website reference:
 	https://www.youtube.com/watch?v=j6Ule7GXaRs
 
 #Resource
 	-wpcoursetools.com
 	-Alternatives to Elementor Pro (Spectra, Gutenberg, and Pro Elements) 
+	-https://developer.wordpress.org/
 
 
 :)[Environment_set_up] 
