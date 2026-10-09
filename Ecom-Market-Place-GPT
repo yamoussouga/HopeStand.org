@@ -257,4 +257,6 @@ Launch exclusions:
 Success metric for the first 30 days:
 ```
 
-Once that is defined, the next artifact should be a **single end-to-end user-flow diagram**: seller signup → listing → buyer checkout → payment confirmation → fulfillment → refund/payout. That diagram becomes your API checklist and development backlog.
+Once that is defined, the next artifact should be a **single end-to-end user-flow diagram**: 
+seller signup → listing → buyer checkout → payment confirmation → fulfillment → refund/payout. 
+That diagram becomes your API checklist and development backlog.
