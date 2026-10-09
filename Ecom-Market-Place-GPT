@@ -1,4 +1,9 @@
-**BLUF:** Your first step is **not coding or selecting APIs**. First, define the smallest marketplace transaction you will support—from seller signup through customer payment, fulfillment, refund, and seller payout. That workflow determines which APIs are truly required.
+####### PROMPT #########
+
+**BLUF:** Your first step is **not coding or selecting APIs**. 
+First, define the smallest marketplace transaction you will support—from seller 
+signup through customer payment, fulfillment, refund, and seller payout. 
+That workflow determines which APIs are truly required.
 
 ## Step 1: Write a one-page “Marketplace MVP contract”
 
@@ -260,3 +265,128 @@ Success metric for the first 30 days:
 Once that is defined, the next artifact should be a **single end-to-end user-flow diagram**: 
 seller signup → listing → buyer checkout → payment confirmation → fulfillment → refund/payout. 
 That diagram becomes your API checklist and development backlog.
+
+
+###########  PROMPT ##################
+
+
+**BLUF:** HopeStand is currently scoped too broadly for a solo MVP. 
+Start with **one country, one seller type, one product type, and single-seller checkout**; 
+expand only after completing real transactions reliably.
+
+## Recommended HopeStand MVP
+
+- **Marketplace name:** HopeStand
+
+- **Customer:**  
+  Adults able to make payments in the initial launch country.  
+  *Do not use “anybody” for v1; buyer support, currencies, fraud controls, delivery, and consumer
+rules differ across countries.*
+
+- **Seller:**  
+  Verified individual entrepreneurs and registered small businesses located in the initial launch country.  
+  Require identity/business and payout-account information appropriate to your payment provider before a seller can receive orders.
+
+- **Product/service category:**  
+  Start with **one low-risk category**—for example, handmade goods, clothing, home goods, books, accessories, or locally made products.  
+  Exclude regulated, age-restricted, counterfeit, stolen, hazardous, financial, medical, and otherwise prohibited goods. Do **not** launch as “any legal category”; each category creates additional payment-provider, moderation, safety, tax, return, and fulfillment requirements.
+
+- **Initial geography:**  
+  **Choose one country and one or two cities/regions within it.**  
+  “West Africa” is a future expansion region, not a launch geography. ECOWAS spans multiple countries, each with different currencies, payment methods, consumer rules, tax treatment, languages, logistics, and seller-verification considerations. 
+
+  **Decision rule:** Launch first in the country where you can legally operate/register the business, open the required bank account, support local payment methods, and handle customer service.
+
+- **Physical, digital, or service:**  
+  **Physical products only for v1.**  
+  Defer digital products and services. Physical products have a clearer fulfillment event—shipped, delivered, returned—and let you validate the marketplace’s core flow first.
+
+- **Fulfillment owner:**  
+  **Seller fulfills the order; HopeStand provides the order record and status tools.**  
+  For v1:
+  1. Seller receives a paid-order notification.
+  2. Seller packages and ships/delivers the item.
+  3. Seller enters tracking information or marks the order fulfilled.
+  4. Buyer receives status updates.
+  
+  HopeStand should not hold inventory, buy shipping labels, or operate delivery logistics initially.
+
+- **Payment provider:**  
+  **Select one provider only after choosing the launch country and confirming your business-entity eligibility.**  
+
+  If your launch country is eligible, Paystack is one possible candidate because its documentation supports creating seller subaccounts and splitting a transaction between the platform and seller account; it also documents multi-split configurations when they become necessary later.   
+
+  Paystack’s documented availability and payment channels vary by country; for example, its materials describe Ghana and Côte d’Ivoire payment capabilities, including local card and mobile-money options in certain contexts. Confirm current onboarding, collection, transfer, settlement, and marketplace eligibility directly with the provider before designing around it. 
+
+  **Your v1 requirement:** card and locally relevant payment methods, verified seller payout accounts, refunds, payment webhooks, and platform-fee collection.
+
+- **Platform fee:**  
+  Use a simple, transparent **percentage commission**, not “based on income” initially.
+
+  **Recommended starting rule:**  
+  - HopeStand fee: **10% of the item subtotal**
+  - Shipping: passed to the seller or buyer according to your policy
+  - Taxes: handled separately
+  - Payment-processing fees: decide clearly whether HopeStand or the seller absorbs them
+  
+  Example: A seller lists an item for 10,000 units of local currency. HopeStand retains 1,000; the seller receives the balance less any agreed payment-processing fees.
+
+  Add volume-based seller tiers only after you have enough sellers and transaction data to justify the complexity.
+
+- **Refund owner:**  
+  **Seller is financially responsible; HopeStand administers and enforces the process.**
+
+  Recommended v1 policy:
+  - Seller accepts or disputes a return/refund request within a defined period.
+  - HopeStand can issue the refund through the payment provider when policy requirements are met.
+  - HopeStand can suspend sellers with repeated fulfillment, quality, fraud, or refund issues.
+  - Keep a manual internal record of every refund decision.
+
+- **Merchant-of-record assumption:**  
+  **Unresolved—obtain local legal, tax, and payment-provider guidance before launch.**  
+  Do not assume this solely because you use a payment API or a split-payment feature. The answer affects tax, customer receipts, disputes, refunds, chargebacks, and responsibility for the sale. Treat this as a launch-blocking business/legal decision.
+
+- **Single-seller checkout or multi-seller checkout:**  
+  **Single-seller checkout.**  
+
+  A buyer may use HopeStand to browse many sellers, but each cart/order should contain items from **one seller only**. This avoids complex payment splitting, partial refunds, multiple shipments, tax treatment, and customer-service problems. Payment providers may support multi-split payments, but technical availability is not a reason to add that complexity at launch. 
+
+- **Launch exclusions:**  
+  - No sales outside the first country
+  - No multi-seller carts
+  - No digital products
+  - No services or bookings
+  - No HopeStand-operated delivery fleet
+  - No international shipping
+  - No multiple currencies
+  - No seller subscriptions or paid advertising
+  - No buyer-seller chat
+  - No native mobile app
+  - No automated recommendations or AI features
+  - No product categories requiring specialized licensing, storage, transport, or age verification
+  - No automated dispute resolution; handle early disputes manually
+
+- **Success metric for the first 30 days:**  
+  Use a small, measurable target:
+
+  > Onboard 10 verified sellers, publish 50 active listings, complete 20 paid orders, maintain at least a 90% seller-fulfillment rate, and resolve all buyer-support requests within two business days.
+
+  Also track:
+  - Number of sellers who complete onboarding
+  - Listings published per seller
+  - Checkout attempts versus successful payments
+  - Orders canceled or refunded
+  - Time from paid order to shipment/fulfillment
+  - Buyer complaints and chargebacks
+  - Net revenue after payment fees and refunds
+
+## The one decision you need to make next
+
+**Choose your first launch country.**
+
+Everything important—company registration, banking, currency, mobile-money/card support, 
+seller verification, taxes, delivery partners, terms, and payment-provider eligibility—depends on that answer. 
+Once you select the country, build a country-specific payment and fulfillment plan rather 
+than designing for all of West Africa at once.
+
+#############  PROMPT ###################
