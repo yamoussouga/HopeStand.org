@@ -413,3 +413,112 @@ and marketplace use with the provider before committing
 
 ############# PROMPT ##################
 
+**BLUF:** Your MVP is now substantially better scoped. For HopeStand in Togo, set the provisional merchant-of-record model as **seller-led**, use **single-seller checkout**, and evaluate **PayDunya first** for payment collection because its documentation includes T-Money Togo, Moov Togo, XOF transactions, payment notifications, testing, and a redistribution capability for payouts. Confirm commercial onboarding, payout eligibility, refund operations, and marketplace use with the provider before committing. 
+
+## HopeStand — Revised MVP Definition
+
+- **Marketplace name:**  
+  HopeStand
+
+- **Customer:**  
+  Adults able to make payments in Togo.
+
+- **Seller:**  
+  Verified individual entrepreneurs and registered small businesses located in Togo.
+
+- **Product/service category:**  
+  Handmade goods, clothing, home goods, books, accessories, and locally made products.
+
+- **Initial geography:**  
+  Togo only.
+
+- **Product type:**  
+  Physical products only.
+
+- **Fulfillment owner:**  
+  Seller fulfills the order. HopeStand provides the listing, order record, paid-order notification, buyer updates, and order-status tools.
+
+- **Payment provider:**  
+  **Recommended initial evaluation: PayDunya.** Its documentation identifies payment flows for T-Money Togo and Moov Togo, supports XOF, provides server-side payment notifications/IPN, offers a sandbox environment, and documents a payment-and-redistribution capability that may support seller payouts. 
+
+  Before integration, obtain written confirmation from the provider on:
+  1. Whether a Togolese HopeStand business can be onboarded.
+  2. Which buyer payment methods are available to your account.
+  3. Whether seller payouts to separate accounts are supported.
+  4. Required seller verification and payout-account requirements.
+  5. Refund, chargeback, settlement timing, transaction-limit, and fee rules.
+  6. Whether your intended marketplace model is permitted under its agreement.
+
+- **Platform fee:**  
+  10% of the item subtotal.
+
+  **Example:**  
+  - Item price: 10,000 XOF  
+  - HopeStand commission: 1,000 XOF  
+  - Seller amount before any agreed payment-processing charges: 9,000 XOF  
+
+  Define in your seller agreement whether processing fees, delivery fees, and return-shipping costs are paid by the buyer, seller, or HopeStand.
+
+- **Refund owner:**  
+  Seller is financially responsible for eligible refunds. HopeStand administers the process and may issue the payment-provider refund after confirming the request meets the published policy.
+
+- **Merchant-of-record assumption:**  
+  Use this **provisional MVP assumption**:
+
+  > **Each seller is the seller and intended merchant of record for that seller’s products. HopeStand acts as a disclosed online marketplace and payment-collection facilitator, retaining its stated platform commission. The seller remains responsible for product accuracy, lawful sale, fulfillment, returns, and applicable seller obligations.**
+
+  **Important:** Do not treat this as a final legal conclusion. Your payment-provider contract, business registration structure, customer receipt format, tax obligations, and local legal advice may require HopeStand to assume some or all merchant-of-record responsibilities. Resolve this before real customer payments are accepted.
+
+- **Checkout model:**  
+  Single-seller checkout only. Each order and cart contains products from one seller. Do not enable a buyer to pay multiple sellers in one transaction during the MVP.
+
+- **Launch exclusions:**  
+  - No sales outside Togo  
+  - No digital products  
+  - No services, appointments, rentals, or bookings  
+  - No multi-seller carts  
+  - No international delivery  
+  - No HopeStand-owned inventory  
+  - No HopeStand-operated delivery fleet  
+  - No multiple currencies  
+  - No seller subscriptions, advertising, or promoted listings  
+  - No buyer-seller chat  
+  - No native iOS or Android app  
+  - No automated dispute resolution  
+  - No regulated, age-restricted, hazardous, counterfeit, stolen, medical, financial, or otherwise prohibited products  
+  - No automated seller approval; approve early sellers manually
+
+- **Success metric for the first 30 days:**  
+
+  > Onboard 10 verified sellers, publish 50 active listings, complete 20 paid orders, maintain at least a 90% seller-fulfillment rate, resolve buyer-support requests within two business days, and record no unresolved payment or payout discrepancies.
+
+## Your immediate next step
+
+Before writing checkout code, contact your selected payment provider and obtain answers to the six payment questions above.
+Then create a simple **payment flow diagram**:
+
+```text
+Buyer selects one seller's product
+        ↓
+Buyer submits order
+        ↓
+HopeStand creates pending order
+        ↓
+Buyer pays by mobile money/card
+        ↓
+Payment provider sends verified server notification
+        ↓
+HopeStand changes order to PAID
+        ↓
+Seller receives fulfillment notification
+        ↓
+Seller ships/delivers item
+        ↓
+HopeStand retains 10% commission
+        ↓
+Seller receives payout under the agreed schedule
+```
+
+Your application should trust the provider’s verified server notification—not merely a buyer’s browser
+redirect—to mark an order as paid. PayDunya’s documentation describes an IPN mechanism specifically 
+for posting transaction information to your server for back-office processing. 
