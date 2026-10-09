@@ -1052,3 +1052,134 @@ for a one-person marketplace business and what documentation a U.S.-citizen owne
 ########### PROMPT ###############
 
 
+**BLUF:** I agree with that approach. Form the **Togolese operating company now**, build and validate HopeStand in Togo, and design your technology and contracts so they can expand later—but do not create regional entities, payment integrations, currencies, or legal structures before they are needed.
+
+## Recommended approach: Togo first, regional-ready later
+
+```text
+Phase 1: Togo only
+        ↓
+Prove demand, payments, fulfillment, refunds, seller support
+        ↓
+Phase 2: Add one new country at a time
+        ↓
+Create local compliance, payment, payout, tax, and fulfillment processes per country
+```
+
+Your future West Africa ambition is a reason to keep your system **modular**, not a reason to make the initial business structure complicated.
+
+## What to do now
+
+1. **Register and operate HopeStand in Togo.**
+   - Keep the company, payment account, seller onboarding, buyer policies, and accounting focused on Togo.
+   - Use XOF and Togo-supported payment methods only.
+   - Start with Togolese sellers and buyers.
+
+2. **Own key assets through the company.**
+   Ensure the HopeStand company—not a personal account or informal partner—controls:
+   - Domain name
+   - Brand and logo rights
+   - Source-code repository
+   - Cloud-hosting account
+   - Payment-provider account
+   - Business email
+   - Seller/customer data
+   - Business bank or settlement account
+
+3. **Build software with country settings.**
+   You do not need multiple-country support now, but avoid hard-coding Togo-specific assumptions everywhere.
+
+   Keep these as configurable fields:
+   - Country
+   - Currency
+   - Payment method
+   - Seller-verification requirements
+   - Delivery regions
+   - Refund window
+   - Platform commission
+   - Tax settings
+   - Product restrictions
+   - Terms and policies
+
+4. **Use a clear country model in your database.**
+
+```text
+Country
+Currency
+Seller
+Buyer
+Product
+Order
+Payment
+Payout
+Fulfillment
+PolicyVersion
+```
+
+For now, every active record can be tied to `Togo`. Later, you can add another country without rebuilding the entire application.
+
+5. **Write policies that are explicitly Togo-specific.**
+   For example:
+
+> HopeStand currently facilitates transactions only between buyers and sellers located in Togo. Availability in other countries will be announced separately and may be subject to country-specific terms, payment methods, delivery rules, seller verification, and product restrictions.
+
+## What not to do now
+
+Do **not**:
+- Register companies in several countries.
+- Add multiple currencies.
+- Add cross-border shipping.
+- Enable international seller payouts.
+- Build multi-country tax calculations.
+- Market HopeStand as available across West Africa.
+- Promise delivery to buyers outside Togo.
+- Sign country-specific payment or logistics contracts before demand exists.
+
+Each additional country should be treated as a new operating launch—not merely a new setting in the website.
+
+## When to expand
+
+Consider a second-country launch only after HopeStand has demonstrated that its Togo operation works. A reasonable threshold is:
+
+- Consistent paid orders over several months
+- Reliable seller verification and payout process
+- Low unresolved refund/dispute rate
+- Documented fulfillment standards
+- Positive unit economics after payment fees, refunds, support, and marketing
+- A local payment and payout option identified for the next country
+- Country-specific legal, tax, consumer-policy, and security/ethics review completed
+
+## Future company structure
+
+You can begin with:
+
+```text
+You
+  ↓
+HopeStand Togo operating company
+```
+
+Later, if expansion, investment, or a larger technology operation justifies it, you can evaluate:
+
+```text
+You
+  ↓
+U.S. parent/holding company
+  ↓
+HopeStand Togo operating company
+  ↓
+Future country operating company or approved local structure
+```
+
+Do not create that parent structure prematurely. It can be added when there is a real business reason, but it adds legal, tax, accounting, and reporting complexity.
+
+## Best next decision
+
+Your next decision is no longer company geography. It is:
+
+> **Will HopeStand personally arrange delivery, or will each seller arrange delivery using their own courier/delivery method?**
+
+For a solo Togo MVP, I recommend: **the seller arranges delivery, while HopeStand records order status and gives buyers clear delivery expectations.**
+
+########### PROMPT ###########
+
