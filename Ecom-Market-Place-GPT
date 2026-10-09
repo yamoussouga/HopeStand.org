@@ -1505,4 +1505,5 @@ Write the following five user stories:
 5. As a seller, I can see a paid order and update its delivery status.
 ```
 
-After that, the next practical decision is your **technology stack**: frontend, backend, database, image storage, hosting, authentication, and transactional email.
+After that, the next practical decision is your **technology stack**: 
+frontend, backend, database, image storage, hosting, authentication, and transactional email.
