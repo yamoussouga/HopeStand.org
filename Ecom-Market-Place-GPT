@@ -522,3 +522,533 @@ Seller receives payout under the agreed schedule
 Your application should trust the provider’s verified server notification—not merely a buyer’s browser
 redirect—to mark an order as paid. PayDunya’s documentation describes an IPN mechanism specifically 
 for posting transaction information to your server for back-office processing. 
+
+
+############### PROMPT ######################
+
+
+**BLUF:** These six questions determine whether HopeStand can legally and technically accept payments, pay sellers, handle refunds, and keep operating when something goes wrong. Do not begin full checkout development until the provider answers them in writing.
+
+## 1. Can a Togolese HopeStand business be onboarded?
+
+### What this means
+You need to confirm that the payment provider will allow **your specific business**—registered in Togo and operating a marketplace—to open a merchant/platform account.
+
+This is different from asking whether a buyer in Togo can make a payment. A provider may support Togo payment methods but still impose conditions on:
+- Your legal business type
+- Your registration documents
+- Your bank or mobile-money account
+- Your business category
+- Your website and published policies
+- Whether you are collecting funds on behalf of third-party sellers
+
+### Ask the provider
+> I am registering a Togolese online marketplace named HopeStand. We will allow verified local sellers to list physical products, accept buyer payments, retain a 10% platform commission, and pay sellers their balance. Is this marketplace business model eligible for an account under your current onboarding rules?
+
+### You need to know
+- Can you register as an individual entrepreneur, or must HopeStand be a formally registered company?
+- What identification, registration, tax, bank, and address documents are required?
+- Does the provider require a live website before approval?
+- Do you need published Terms of Service, Privacy Policy, Refund Policy, and prohibited-products policy?
+- Are marketplaces, reseller platforms, or payment collection for sellers restricted?
+- Is there an approval process for your category of goods?
+
+### Why it matters
+If you build payment logic before your account is approved, you may discover late that:
+- Your business type is not eligible.
+- You cannot accept payments until you provide additional documents.
+- Your account can collect money but cannot distribute it to sellers.
+- Your category requires manual review or is prohibited.
+
+---
+
+## 2. Which buyer payment methods are available to your account?
+
+### What this means
+You need to know exactly how buyers will pay at checkout—not just what the provider advertises generally.
+
+For HopeStand in Togo, your goal is to offer the local methods your buyers actually use, likely including applicable mobile-money options and possibly cards. PayDunya’s documentation describes T-Money Togo and Moov Togo payment flows, as well as transactions in XOF; however, you must confirm which methods are activated for **your approved account**. 
+
+### Ask the provider
+> After HopeStand is approved, which payment methods can our buyers use in Togo? Please confirm availability for T-Money, Moov Money, local/international cards, and any other available options. Are there separate contracts, activation steps, limits, or fees for each method?
+
+### You need to know
+- Which mobile-money options are enabled?
+- Are card payments available?
+- Can buyers pay only in XOF, or are other currencies possible?
+- Are there minimum or maximum transaction amounts?
+- Are there daily, weekly, or monthly account limits?
+- What happens if a buyer starts a mobile-money payment but never confirms it?
+- How long should HopeStand keep an order in a `PENDING_PAYMENT` status?
+- How do you know that a payment failed, expired, or was completed?
+
+### Why it matters
+Your checkout design depends on the answer.
+
+For example:
+- Mobile money may require the buyer to approve a prompt on their phone.
+- A payment can remain pending for several minutes.
+- You must not tell a seller to ship until your server receives and verifies a confirmed payment status.
+- Your website should display different instructions for each payment method.
+
+---
+
+## 3. Can HopeStand pay each seller separately?
+
+### What this means
+HopeStand needs a reliable way to distribute seller earnings after taking its 10% commission.
+
+There are two possible models:
+
+1. **Automatic split at payment time**  
+   When a buyer pays, the provider automatically allocates HopeStand’s commission and the seller’s share.
+
+2. **Platform collects first, then pays the seller later**  
+   HopeStand receives the buyer payment, records the seller’s balance, and initiates payouts after delivery or after a defined payout schedule.
+
+PayDunya documents payment redistribution functionality, but you need to verify whether it is available to your Togolese account, what recipient accounts are supported, and whether the model is authorized for your marketplace. 
+
+### Ask the provider
+> Can HopeStand distribute a buyer payment to an individual seller or registered business in Togo while retaining a 10% platform fee? Please explain whether this is handled as an automatic split, a delayed payout, or a separate transfer. Which destination account types can sellers use?
+
+### You need to know
+- Can sellers receive funds to a bank account, mobile-money wallet, or both?
+- Can individual sellers receive payouts, or only registered businesses?
+- Does each seller need their own provider account?
+- Can HopeStand delay a payout until delivery is confirmed?
+- Can HopeStand reverse, pause, or hold a payout for a refund, dispute, or fraud review?
+- Are payouts available automatically, daily, weekly, or only manually?
+- What are payout fees, minimum payout amounts, and limits?
+- What happens if a seller’s payout fails?
+
+### Why it matters
+This determines your financial records and order lifecycle.
+
+For the MVP, use a simple payout rule, such as:
+
+```text
+Buyer payment confirmed
+        ↓
+Order status: PAID
+        ↓
+Seller fulfills item
+        ↓
+Buyer has a defined window to report a material issue
+        ↓
+HopeStand releases seller payout
+        ↓
+HopeStand retains 10% commission
+```
+
+Do not promise “instant seller payouts” until you understand refund, delivery, fraud, and chargeback risk.
+
+---
+
+## 4. What seller verification and payout-account information is required?
+
+### What this means
+You need to know what a seller must provide before:
+1. Listing products,
+2. Receiving orders, and
+3. Receiving money.
+
+Do not assume every seller can receive payouts with only a name and phone number.
+
+### Ask the provider
+> What information and verification are required for HopeStand to pay sellers in Togo? Please distinguish requirements for individual entrepreneurs versus registered businesses, and identify the requirements for mobile-money versus bank-account payouts.
+
+### You need to know
+For an **individual seller**, providers may require items such as:
+- Full legal name
+- Verified phone number
+- Identity document
+- Mobile-money or bank-account ownership details
+- Address or proof of residence
+- Date of birth or other identity fields, where required
+
+For a **registered business seller**, they may require:
+- Business registration information
+- Tax or business identification information, if applicable
+- Authorized representative identity details
+- Business bank or mobile-money account details
+- Proof that the business controls the payout destination
+
+### Why it matters
+This drives your seller onboarding flow.
+
+A practical HopeStand MVP policy is:
+
+```text
+Seller can create a draft profile and draft listings.
+Seller cannot publish listings or receive orders until approved.
+Seller cannot receive a payout until payout details are verified.
+```
+
+This prevents a common failure: accepting buyer payments for a seller whom you later cannot pay.
+
+Only collect information that is necessary for onboarding and payment operations, protect it appropriately, and follow your organization’s applicable privacy, access, handling, records, and release policies.
+
+---
+
+## 5. How do refunds, disputes, settlement timing, limits, and fees work?
+
+### What this means
+This is the operational-risk question. You need to know what happens after a payment succeeds, particularly if:
+- The seller does not ship.
+- The item is materially different from the listing.
+- The buyer asks for a refund.
+- A buyer disputes a card transaction.
+- A seller payout was already sent.
+- A payment is later reversed.
+
+### Ask the provider
+> Please provide HopeStand’s applicable process, timing, fees, and API steps for refunds, reversals, disputes, failed payments, chargebacks, settlements, and seller payouts. Can a refund be issued after the seller has been paid? If so, who bears the resulting balance or recovery obligation?
+
+### You need to know
+- Can you issue a full or partial refund through an API or dashboard?
+- Can you refund mobile-money and card payments?
+- Is there a time limit for refunds?
+- Are refund fees charged?
+- How long after successful payment do funds become available to HopeStand?
+- How long after payout initiation do sellers receive funds?
+- Can a buyer dispute a payment after delivery?
+- If a chargeback occurs after the seller is paid, can HopeStand recover money from the seller?
+- What are the transaction and payout limits?
+- What fees are charged for collection, refunds, transfers, and failed payouts?
+
+### Why it matters
+You need a written HopeStand policy before launch.
+
+A simple MVP policy could be:
+
+```text
+Buyer requests refund through HopeStand within 48 hours of delivery.
+HopeStand reviews evidence manually.
+Seller has two business days to respond.
+HopeStand decides whether the request meets the marketplace policy.
+Approved refund is sent through the original payment method where possible.
+Seller payout is delayed until the buyer-protection window closes.
+```
+
+Adjust the timing only after confirming provider capabilities and getting appropriate local legal/business review.
+
+---
+
+## 6. Is HopeStand’s marketplace model allowed under the provider agreement?
+
+### What this means
+This is the most important question.
+
+A normal merchant account may allow a business to sell **its own products**. HopeStand is different: it enables multiple independent sellers to sell goods to buyers, and HopeStand collects a commission.
+
+The provider must explicitly permit:
+- Third-party sellers
+- Payments collected for sellers
+- Commission retention
+- Seller payouts or splits
+- Your intended merchant-of-record arrangement
+- Your selected product categories
+
+### Ask the provider
+> Is HopeStand permitted to operate as a multi-seller marketplace under your agreement? We will list goods from verified third-party sellers, collect buyer payments, retain a 10% commission, and distribute seller proceeds. Please confirm whether this model is permitted and identify any marketplace-specific agreement, compliance, reserve, reporting, or onboarding requirements.
+
+### You need to know
+- Is a marketplace permitted at all?
+- Must you sign a separate marketplace/platform agreement?
+- Is HopeStand required to be the merchant of record?
+- Must the seller be named on the customer receipt?
+- Must each seller have their own payment-provider account?
+- Are you required to verify sellers before they transact?
+- Can HopeStand hold money before sending it to sellers?
+- Are reserve balances required to cover refunds or disputes?
+- Are your planned product categories permitted?
+- What reporting must HopeStand provide to the provider, sellers, or authorities?
+
+### Why it matters
+If the provider does not support marketplace activity, using a standard merchant account for third-party seller payments can lead to delayed settlements, account restrictions, frozen funds, or termination.
+
+---
+
+## Recommended message to send the payment provider
+
+```text
+Subject: Marketplace payment and seller-payout eligibility — HopeStand, Togo
+
+Hello,
+
+I am building HopeStand, an online marketplace that will launch in Togo.
+
+HopeStand will allow verified individual entrepreneurs and registered small businesses in Togo to sell physical products such as handmade goods, clothing, home goods, books, accessories, and locally made products.
+
+Our proposed model is:
+- Buyers pay through HopeStand’s checkout.
+- Each checkout contains items from only one seller.
+- HopeStand retains a 10% platform commission from the item subtotal.
+- The seller fulfills the physical order.
+- HopeStand administers refunds according to its marketplace policy.
+- Seller proceeds are paid after the applicable order/refund review period.
+
+Please confirm:
+
+1. Whether a Togolese marketplace business such as HopeStand is eligible for onboarding.
+2. Which buyer payment methods will be available to our account in Togo.
+3. Whether we can pay sellers separately, including any split-payment or payout capabilities.
+4. Verification and payout-account requirements for individual and registered-business sellers.
+5. Settlement timing, fees, limits, refund procedures, disputes, reversals, and payout-failure procedures.
+6. Whether our marketplace model is permitted under your agreement, and whether a separate marketplace agreement is required.
+
+Please also provide the relevant API documentation, commercial terms, onboarding requirements, and a point of contact for marketplace compliance questions.
+
+Thank you,
+[Your name]
+HopeStand
+```
+
+## What you should save from their response
+
+Keep a written record of:
+- The provider’s confirmation that marketplace activity is allowed
+- Account eligibility requirements
+- Fees and settlement schedule
+- Supported payment methods
+- Refund and dispute rules
+- Seller payout capability and requirements
+- Any account limits, reserve requirements, or prohibited product categories
+
+These answers should drive your seller agreement, refund policy, data model, checkout design, and payment integration.
+
+
+############## PROMPT #################
+
+**BLUF:** For a Togo-only marketplace, the most practical long-term structure is often a **Togolese operating company that you own 100% as a U.S. citizen**, potentially with a U.S. LLC added later as a parent/holding company if the business grows. Do **not** choose a U.S.-only entity simply to simplify a security-clearance concern; first obtain written guidance from your security office or facility security officer and a U.S.–Togo cross-border tax/legal professional.
+
+Your lack of Togolese citizenship does not automatically prevent you from owning a Togolese company. Current U.S. government trade guidance states that foreign companies may own 100% of a business in Togo, repatriate profits, and invest in most sectors without local equity, subject to licenses/approvals in regulated sectors. Togo’s CFE is the government one-stop shop for business registration. 
+
+## Your Main Options
+
+### Option 1 — U.S. LLC operates HopeStand directly in Togo
+
+**Structure**
+
+```text
+You, U.S. citizen
+        ↓
+U.S. LLC
+        ↓
+HopeStand marketplace serving sellers and buyers in Togo
+```
+
+**Advantages**
+- Familiar U.S. entity structure.
+- Easier to use U.S.-based accountants, banking, contracts, and future U.S. investors.
+- May be useful if HopeStand later expands to the United States or becomes a broader international technology company.
+
+**Risks and limitations**
+- A U.S. LLC does **not** eliminate the need to comply with Togolese business, tax, consumer, payment, and operational requirements.
+- A payment provider serving Togo may require a local entity, local bank account, local representative, or local operating documentation.
+- You may still need to register the U.S. company as a foreign business operating in Togo.
+- It can create more complicated cross-border tax and bookkeeping requirements from day one.
+
+**Best when**
+- You expect U.S. operations, U.S. fundraising, or international expansion soon.
+- Your payment provider confirms in writing that it can onboard and settle a U.S. company operating a Togolese marketplace.
+- You have qualified cross-border legal and tax support.
+
+**My assessment for HopeStand now:** Usually **not the simplest initial option** for a solo, Togo-focused marketplace.
+
+---
+
+### Option 2 — Togolese company owned by you
+
+**Structure**
+
+```text
+You, U.S. citizen
+        ↓ 100% ownership
+Togolese company
+        ↓
+HopeStand marketplace in Togo
+```
+
+A common form to discuss with Togolese counsel is a limited-liability company, often referred to as a **SARL** under the regional OHADA business-law framework. The exact entity form, capitalization, governing documents, and registration requirements should be confirmed locally.
+
+**Advantages**
+- Better alignment with a Togo-first customer base, seller base, local currency, local mobile-money payment methods, and local fulfillment.
+- More likely to fit local payment-provider onboarding and settlement expectations.
+- Keeps HopeStand’s local sales, seller payouts, contracts, and operating expenses inside the same operating entity.
+- Togo permits full foreign ownership in most sectors, according to current U.S. trade guidance. 
+
+**Risks and limitations**
+- You will likely need local legal, accounting, tax, banking, and registration support.
+- As a U.S. citizen owning a foreign company, you may have U.S. tax and information-reporting obligations.
+- If you have ownership, signature authority, or other authority over foreign financial accounts, U.S. FBAR reporting may apply when the applicable reporting threshold is met. 
+- Ownership of a foreign corporation by a U.S. person can trigger IRS information reporting, potentially including Form 5471 depending on ownership and other facts; the IRS instructions define U.S. persons for these purposes to include U.S. citizens. 
+
+**Best when**
+- HopeStand is launching only in Togo.
+- Buyers pay primarily through Togolese payment methods.
+- Sellers are located in Togo and require local payouts.
+- You want the simplest operational relationship with local payment providers, sellers, delivery partners, and customers.
+
+**My assessment for HopeStand now:** This is likely the **best starting structure**, subject to local counsel, payment-provider eligibility, tax advice, and your organization’s clearance/security guidance.
+
+---
+
+### Option 3 — U.S. parent company plus Togolese operating subsidiary
+
+**Structure**
+
+```text
+You, U.S. citizen
+        ↓
+U.S. LLC or C-Corporation
+        ↓
+Togolese operating company
+        ↓
+HopeStand marketplace in Togo
+```
+
+**Advantages**
+- Separates the U.S. ownership/technology/investment side from Togolese operations.
+- A U.S. parent may be more familiar to future U.S. investors or partners.
+- The Togolese subsidiary can hold local payment-provider, banking, seller, delivery, and customer operations.
+
+**Risks and limitations**
+- Two entities means two sets of books, registrations, compliance tasks, tax filings, banking relationships, and legal costs.
+- Money moving between entities must be documented correctly.
+- It is usually excessive for a solo pre-launch marketplace with no proven demand.
+
+**Best when**
+- You anticipate outside investment.
+- You intend to expand into multiple countries.
+- You plan to employ developers or conduct significant operations in the United States.
+- You have enough revenue or funding to sustain professional accounting and legal support.
+
+**My assessment for HopeStand now:** A good **future structure**, but probably not your first move.
+
+---
+
+### Option 4 — Use a Togolese partner’s company or account
+
+**Structure**
+
+```text
+You
+        ↓ informal arrangement
+Local partner's company/payment account
+        ↓
+HopeStand
+```
+
+**Do not use this as the default solution.**
+
+Even if it appears easier, it creates significant risk:
+- You may lose control of money, data, payment accounts, brand assets, and customer relationships.
+- The payment account holder may be treated as responsible for transactions and disputes.
+- Ownership and tax obligations may become unclear.
+- It may conflict with payment-provider terms if the account holder is not the actual operating merchant.
+- It can create personal and business disputes that are difficult to resolve.
+
+Use a local partner only under a written, professionally reviewed ownership and operating agreement—and only if that partner has a genuine role in the business.
+
+---
+
+## Recommended Path for You
+
+### Recommended initial structure
+
+```text
+You, U.S. citizen
+        ↓ 100% owner
+HopeStand Togo SARL or other suitable Togolese operating entity
+        ↓
+Local business bank/mobile-money relationship
+        ↓
+Togo-approved marketplace payment-provider account
+        ↓
+Togolese sellers and buyers
+```
+
+Then, if HopeStand proves demand, consider adding a U.S. parent entity later.
+
+This keeps your first version focused on the country where your sellers, buyers, fulfillment, and payment methods will exist.
+
+---
+
+## Security-Clearance Considerations
+
+Do **not** assume that registering in the United States instead of Togo avoids reporting or review concerns.
+
+A foreign business interest can involve:
+- Ownership of a foreign company
+- A director/officer/manager role
+- Foreign business income
+- Foreign bank or mobile-money accounts
+- Authority to transfer funds
+- Business relationships with foreign nationals
+- Ongoing foreign commercial activity
+
+Your specific reporting and approval obligations depend on your employer, position, clearance status, agency/component rules, contract terms, and any outside-employment or conflict-of-interest restrictions. I cannot determine clearance acceptability or approve the arrangement.
+
+**Before registering any entity, ask your security manager, facility security officer, ethics office, or designated clearance point of contact:**
+
+> I am considering owning and operating an e-commerce marketplace serving Togo. The business may be incorporated in Togo, may maintain local payment or bank accounts, and may involve commercial relationships with Togolese sellers and service providers. Please identify all required reporting, outside-employment, conflict-of-interest, and foreign-financial-interest review requirements before I proceed.
+
+Ask for the answer in writing and retain it with your business records.
+
+---
+
+## The Professional Advice You Need Before Registration
+
+Obtain short consultations with:
+
+1. **A Togolese business lawyer or registered company-formation professional**
+   - Entity type
+   - CFE registration steps
+   - Business licenses
+   - Seller contracts
+   - Consumer and e-commerce requirements
+   - Terms of service and refund policy
+
+2. **A Togolese accountant or tax adviser**
+   - Local tax registration
+   - Invoicing and recordkeeping
+   - VAT/tax treatment
+   - Seller commission treatment
+   - Payment-provider settlement records
+
+3. **A U.S. CPA experienced in foreign entities**
+   - U.S. reporting for ownership of a Togolese company
+   - Foreign income treatment
+   - Foreign-bank-account reporting
+   - Form 5471 and any other applicable filings
+   - Recordkeeping for money transferred between you and the business
+
+4. **Your security/ethics point of contact**
+   - Outside activity approval
+   - Foreign business-interest reporting
+   - Foreign-account reporting
+   - Conflict-of-interest review
+
+---
+
+## Practical Decision Rule
+
+Choose a **Togolese company first** if all of these are true:
+
+- HopeStand will launch only in Togo.
+- Your sellers and buyers are in Togo.
+- Your payment provider prefers or requires local registration.
+- Seller payouts will use local banks or mobile money.
+- You can obtain local accounting and legal support.
+- Your security/ethics process does not prohibit the arrangement.
+
+Choose a **U.S. parent plus Togolese subsidiary** only if you have a near-term reason—such as U.S. investment, a U.S. cofounder, a U.S. technology team, or planned multi-country expansion—that justifies the additional administrative burden.
+
+Your next action should be to obtain the clearance/ethics guidance first, 
+then ask a Togolese formation professional whether a 100%-foreign-owned SARL is suitable 
+for a one-person marketplace business and what documentation a U.S.-citizen owner needs.
+
+########### PROMPT ###############
+
+
