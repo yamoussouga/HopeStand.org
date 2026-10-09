@@ -1,0 +1,260 @@
+**BLUF:** Your first step is **not coding or selecting APIs**. First, define the smallest marketplace transaction you will support—from seller signup through customer payment, fulfillment, refund, and seller payout. That workflow determines which APIs are truly required.
+
+## Step 1: Write a one-page “Marketplace MVP contract”
+
+Complete these decisions before building:
+
+1. **What is sold?**  
+   Physical products, digital downloads, services, rentals, or a combination.
+
+2. **Who are the sellers?**  
+   Individuals, registered businesses, or both. Start with one seller type.
+
+3. **Where will you operate initially?**  
+   One country, one state/province, or one city. Avoid multi-country launch scope.
+
+4. **Who handles fulfillment?**  
+   - Seller ships/delivers directly  
+   - You ship from inventory  
+   - Digital fulfillment  
+   - Local pickup/service appointment
+
+5. **Who takes payment and manages refunds?**  
+   For a true marketplace, the platform usually collects customer payment, retains its fee, and pays sellers. This is a core legal, tax, dispute, and product-design choice—not merely an API choice.
+
+6. **How do you make money?**  
+   Commission per order is simplest. Avoid subscriptions, ads, promotions, wallets, and multiple fee models in v1.
+
+7. **What is explicitly out of scope?**  
+   Example: “No international sales, no multi-seller carts, no subscriptions, no buyer-seller chat, no mobile app, no same-day delivery.”
+
+### Example MVP statement
+
+> A U.S.-only marketplace for independent sellers of [category]. Sellers create listings for physical products, customers buy one seller’s items per checkout, sellers ship orders directly, and the platform retains a 10% commission before payouts. Initial launch supports card payments, refunds, order tracking, and basic seller onboarding only.
+
+If you cannot state this in a paragraph, the build scope is still too broad.
+
+---
+
+###### Minimum API Stack
+
+1. **Marketplace payments, seller verification, and payouts**
+   - **Build yourself?** No  
+   - **Needed at launch?** Yes  
+   - **Purpose:** Use a marketplace payment provider, such as Stripe Connect, to manage seller accounts,
+payment processing, platform fees, identity/verification requirements, and payouts.
+
+2. **Tax calculation and collection**
+   - **Build yourself?** Usually no  
+   - **Needed at launch?** Depends on your launch location and marketplace model  
+   - **Purpose:** Determine applicable sales-tax, VAT, GST, reporting, and marketplace-facilitator
+obligations before accepting transactions.
+
+3. **Authentication**
+   - **Build yourself?** Initially, yes  
+   - **Needed at launch?** Optional API  
+   - **Purpose:** Email/password authentication with secure sessions is sufficient for an MVP. 
+Add social login only if user demand justifies it.
+
+4. **Product catalog, listings, carts, and orders**
+   - **Build yourself?** Yes  
+   - **Needed at launch?** No external API  
+   - **Purpose:** This is your core marketplace functionality and should be managed by your own application and database.
+
+5. **Images and files**
+   - **Build yourself?** No  
+   - **Needed at launch?** Yes  
+   - **Purpose:** Use object storage for listing images and files, preferably with direct-to-storage uploads. 
+An S3-compatible service is a practical option.
+
+6. **Transactional email**
+   - **Build yourself?** No  
+   - **Needed at launch?** Yes  
+   - **Purpose:** Send account verification messages, password resets, purchase receipts, order confirmations,
+shipping updates, refunds, and seller notifications.
+
+7. **Shipping labels, rates, and tracking**
+   - **Build yourself?** No  
+   - **Needed at launch?** Later or only if required  
+   - **Purpose:** Use a shipping API only if you centrally buy labels, calculate shipping rates, or manage tracking.
+If sellers handle shipping independently, defer this.
+
+8. **Address autocomplete and validation**
+   - **Build yourself?** No  
+   - **Needed at launch?** Optional  
+   - **Purpose:** Improve checkout usability and reduce address-entry errors. Add it after validating that address
+errors or checkout abandonment are a real issue.
+
+9. **Search**
+   - **Build yourself?** Initially, yes  
+   - **Needed at launch?** No external API  
+   - **Purpose:** Start with database-backed search and filters. Add a dedicated search service only when your 
+catalog grows or search relevance becomes a problem.
+
+10. **Analytics, chat, CRM, recommendations, and AI**
+    - **Build yourself?** No  
+    - **Needed at launch?** No  
+    - **Purpose:** Defer these capabilities until your marketplace reliably supports seller onboarding, listings,
+payments, fulfillment, refunds, and support.
+
+### The likely minimum external services for v1
+
+1. **Marketplace payments and payouts**
+2. **Image/object storage**
+3. **Transactional email**
+4. **A hosting/deployment provider**
+5. **A domain/DNS provider**
+
+Everything else is probably deferrable.
+
+---
+
+## Recommended build order
+
+### Phase 0 — Validate before you build
+- Interview 10–20 potential sellers and 10–20 potential buyers.
+- Manually test the transaction: recruit a few sellers, list a few products, and see whether buyers will purchase.
+- Confirm your initial category is allowed by your payment provider and that you understand applicable marketplace, consumer-protection, and tax obligations.
+- Decide whether you will be the merchant of record. This choice materially affects operational responsibility; Stripe’s marketplace guidance specifically frames one common model as the platform being legally responsible for the goods/services sold through connected accounts. 
+
+### Phase 1 — Design the core data model
+Create these core entities:
+
+- `User`
+- `SellerProfile`
+- `Product`
+- `ProductImage`
+- `Inventory` or `Availability`
+- `Cart`
+- `Order`
+- `OrderItem`
+- `Payment`
+- `Refund`
+- `Payout`
+- `Shipment` or `Fulfillment`
+- `PlatformFee`
+- `AuditEvent`
+
+Keep a clear distinction between:
+- **Order status:** pending, paid, fulfilled, canceled, refunded
+- **Payment status:** authorized, captured, failed, refunded, disputed
+- **Payout status:** pending, paid, failed
+
+Do not treat them as one status field.
+
+### Phase 2 — Build the buyer and seller flows
+Build only these screens/workflows:
+
+**Seller**
+1. Register/login
+2. Complete payment-provider onboarding
+3. Create/edit a listing
+4. Upload images
+5. View orders
+6. Mark order shipped/fulfilled
+
+**Buyer**
+1. Browse listings
+2. View product
+3. Add to cart
+4. Checkout
+5. Receive receipt/order confirmation
+6. View order status
+
+**Administrator—you**
+1. Approve/hide listings
+2. View orders and payment state
+3. Issue refunds
+4. Suspend a seller/listing
+5. Handle basic support requests
+
+### Phase 3 — Integrate payments safely
+- Use hosted or provider-managed onboarding for sellers where possible.
+- Never store card data yourself.
+- Process payment state changes through **webhooks**, not only browser redirects.
+- Make webhook handling idempotent: the same event may arrive more than once.
+- Do not release fulfillment based solely on “the checkout page said success”; update the order only after a verified provider event.
+- Test failed payments, duplicate webhook deliveries, refunds, seller onboarding failures, and payout failures.
+
+### Phase 4 — Add operational basics
+Before accepting real orders, have:
+- Terms of service
+- Privacy notice
+- Seller agreement
+- Refund/return policy
+- Prohibited-items policy
+- Support email and response process
+- Seller suspension/removal process
+- Backup and recovery plan
+- Basic logging and error monitoring
+- A manual procedure for disputes, refunds, and fraud review
+
+Obtain jurisdiction-specific legal and tax review before launch, particularly because marketplace tax obligations can attach to the operator depending on where and how you facilitate sales. 
+
+### Phase 5 — Pilot, then expand
+Launch with:
+- 5–20 sellers
+- One product category
+- One geography
+- A limited number of buyers
+- Manual seller approval
+- One checkout/payout configuration
+- No multi-seller cart unless it is essential to your marketplace’s value proposition
+
+Measure:
+- Seller activation rate
+- Listing completion rate
+- Checkout conversion
+- Payment failures
+- Refund rate
+- Delivery/fulfillment issues
+- Support tickets per order
+- Time from seller signup to first sale
+
+Only then add advanced search, mobile apps, multi-seller carts, subscriptions, promotions, messaging, automated recommendations, or additional countries.
+
+---
+
+## A practical “do not build this yet” list
+
+Avoid these in the first release:
+
+- Your own payment processor or payout ledger
+- Custom card-data handling
+- A wallet or stored marketplace balance
+- Complex split payments across multiple sellers in one cart
+- Real-time chat
+- Recommendation engine
+- Social features
+- Native iOS/Android apps
+- International currencies and languages
+- Automated sales-tax filing logic
+- Custom shipping-rate engine
+- Microservices
+
+For a solo builder, a modular monolith—one codebase, one primary database, clean internal modules—is the sensible starting point.
+
+---
+
+## Your concrete task for today
+
+Fill in this template:
+
+```text
+Marketplace name:
+Customer:
+Seller:
+Product/service category:
+Initial geography:
+Physical, digital, or service:
+Fulfillment owner:
+Payment provider:
+Platform fee:
+Refund owner:
+Merchant-of-record assumption:
+Single-seller checkout or multi-seller checkout:
+Launch exclusions:
+Success metric for the first 30 days:
+```
+
+Once that is defined, the next artifact should be a **single end-to-end user-flow diagram**: seller signup → listing → buyer checkout → payment confirmation → fulfillment → refund/payout. That diagram becomes your API checklist and development backlog.
