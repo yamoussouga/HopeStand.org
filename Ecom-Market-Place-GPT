@@ -390,3 +390,26 @@ Once you select the country, build a country-specific payment and fulfillment pl
 than designing for all of West Africa at once.
 
 #############  PROMPT ###################
+
+# Marketplace name: HopeStand
+# Customer: Adults able to make payments in the initial launch country.
+# Seller: Verified individual entrepreneurs and registered small businesses located in the initial launch country.
+# Product/service category: handmade goods, clothing, home goods, books, accessories, or locally made products.
+# Initial geography: TOGO
+# Physical, digital, or service: Physical
+# Fulfillment owner: Seller fulfills the order; HopeStand provides the order record and status tools.
+# Payment provider: card and locally relevant payment methods, verified seller payout accounts, refunds, payment webhooks, and platform-fee collection.
+# Platform fee: 10% of the item subtotal
+# Refund owner: Seller is financially responsible; HopeStand administers and enforces the process.
+# Merchant-of-record assumption: seller-led, use single-seller checkout, 
+and evaluate PayDunya first for payment collection because its documentation
+includes T-Money Togo, Moov Togo, XOF transactions, payment notifications, 
+testing, and a redistribution capability for payouts. 
+Confirm commercial onboarding, payout eligibility, refund operations, 
+and marketplace use with the provider before committing
+# Single-seller checkout or multi-seller checkout: Single-seller checkout.
+# Launch exclusions: All that you recommended above.
+# Success metric for the first 30 days: All that you recommended above.
+
+############# PROMPT ##################
+
