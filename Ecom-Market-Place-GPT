@@ -1181,5 +1181,328 @@ Your next decision is no longer company geography. It is:
 
 For a solo Togo MVP, I recommend: **the seller arranges delivery, while HopeStand records order status and gives buyers clear delivery expectations.**
 
-########### PROMPT ###########
 
+
+########### PROMPT #############################################
+!!!  THIS IS WHERE THE ECOMMERCE MARKETPLACE ACTIONS ACTUALLY START
+#################################################################
+**BLUF:** Yes—you can start building now. Build the marketplace’s core product flows using test data and a mock payment service, while legal, company-registration, payment-provider, and clearance decisions proceed in parallel. Do **not** activate real seller payouts or accept real customer payments until those decisions are confirmed.
+
+## Your next step: Create the HopeStand MVP Build Specification
+
+Before writing code, create one short document that defines exactly what Version 1 will do.
+
+### 1. Lock the MVP assumptions
+
+Use these as your initial build assumptions:
+
+```text
+Marketplace: HopeStand
+Launch country: Togo
+Currency: XOF
+Products: Physical goods only
+Sellers: Verified Togolese individual entrepreneurs and small businesses
+Buyers: Adults able to pay in Togo
+Checkout: Single seller per order
+Platform commission: 10% of item subtotal
+Fulfillment: Seller arranges delivery
+Refunds: Seller funds eligible refunds; HopeStand administers process
+Payments: Mock/test payments initially; provider integration later
+```
+
+For now, assume that sellers arrange delivery themselves. HopeStand should record the delivery status but should not operate delivery or buy shipping labels.
+
+---
+
+## 2. Define the first version’s user roles
+
+Your MVP needs only three roles:
+
+### Buyer
+Can:
+- Browse approved products
+- View product details
+- Add items from one seller to a cart
+- Submit an order
+- Make a test/mock payment initially
+- View order status
+- Request a refund
+
+### Seller
+Can:
+- Create an account
+- Create a seller profile
+- Submit payout details for later verification
+- Create and edit product listings
+- Upload product images
+- View paid orders
+- Mark orders as preparing, shipped, delivered, or canceled
+
+### HopeStand administrator
+This is you initially.
+
+Can:
+- Approve or reject seller profiles
+- Approve, hide, or remove listings
+- View all orders and payment states
+- Manage refunds manually
+- Suspend a seller or listing
+- Review errors, complaints, and payout records
+
+Do not build separate staff departments, permissions, analytics dashboards, or automated moderation for the first version.
+
+---
+
+## 3. Build in this order
+
+### Step A — Set up the application foundation
+
+Create:
+- One code repository
+- One production environment and one test/development environment
+- One relational database
+- Basic account authentication
+- Separate Buyer, Seller, and Admin roles
+- Secure environment variables for credentials and API keys
+- Error logging
+
+Use a **modular monolith**: one application and one main database. Do not start with microservices.
+
+---
+
+### Step B — Build seller onboarding
+
+Create these seller screens:
+
+1. Create account
+2. Create seller profile
+3. Enter shop name
+4. Enter seller description
+5. Enter phone/contact method
+6. Enter city/region in Togo
+7. Submit payout information as `PENDING_VERIFICATION`
+8. Await manual approval
+
+For now, do not automatically approve sellers. You should review and approve each early seller yourself.
+
+Suggested seller states:
+
+```text
+DRAFT
+PENDING_REVIEW
+APPROVED
+REJECTED
+SUSPENDED
+```
+
+---
+
+### Step C — Build product listings
+
+Each listing should include:
+
+```text
+Product name
+Description
+Category
+Price in XOF
+Available quantity
+Product images
+Seller
+Condition: new / handmade / used, if you allow it
+Delivery area or delivery method
+Listing status
+```
+
+Suggested listing states:
+
+```text
+DRAFT
+PENDING_REVIEW
+ACTIVE
+PAUSED
+REJECTED
+SOLD_OUT
+REMOVED
+```
+
+Initially, require manual approval before a listing becomes `ACTIVE`.
+
+---
+
+### Step D — Build the buyer marketplace
+
+Create these pages:
+
+1. Home page
+2. Category page
+3. Product search/filter page
+4. Product-detail page
+5. Seller-store page
+6. Cart page
+7. Checkout page
+8. Buyer order-history page
+9. Buyer order-detail page
+
+Keep search simple at first:
+- Keyword search
+- Category filter
+- Price range
+- Location/city filter
+
+You do not need an advanced search API yet.
+
+---
+
+### Step E — Build the single-seller cart rule
+
+This is a critical MVP rule.
+
+When a buyer adds a product from Seller A to their cart:
+
+```text
+If cart is empty:
+    Add item normally.
+
+If cart contains only Seller A products:
+    Add item normally.
+
+If cart contains Seller B products:
+    Tell buyer:
+    "Your cart contains products from another seller.
+     Complete or clear that cart before adding this item."
+```
+
+This keeps payments, delivery, refunds, and seller commissions simple.
+
+---
+
+### Step F — Build orders before real payments
+
+Create the order workflow using a fake/test payment status first.
+
+```text
+Cart
+  ↓
+Checkout started
+  ↓
+Order created: PENDING_PAYMENT
+  ↓
+Test payment succeeds
+  ↓
+Order becomes: PAID
+  ↓
+Seller is notified
+  ↓
+Seller marks item: PREPARING
+  ↓
+Seller marks item: SHIPPED or OUT_FOR_DELIVERY
+  ↓
+Seller marks item: DELIVERED
+  ↓
+Order becomes: COMPLETED
+```
+
+Recommended order states:
+
+```text
+PENDING_PAYMENT
+PAID
+PREPARING
+SHIPPED
+DELIVERED
+COMPLETED
+CANCELED
+REFUND_REQUESTED
+REFUNDED
+```
+
+Build this workflow before connecting a payment provider. Once you have provider approval, replace the mock payment function with the real payment integration and verified payment webhooks.
+
+---
+
+## 4. Define your minimum database records
+
+Your first database version should include:
+
+```text
+User
+SellerProfile
+BuyerProfile
+Product
+ProductImage
+Cart
+CartItem
+Order
+OrderItem
+Payment
+RefundRequest
+Payout
+DeliveryStatus
+PlatformCommission
+AdminReview
+AuditLog
+```
+
+Important design rule:
+
+> Keep `Order`, `Payment`, `Refund`, and `Payout` as separate records.
+
+For example, an order can be paid but not delivered. A seller can be eligible for a payout but not yet paid. A refund can be requested after delivery. Combining all of that into one status field will cause problems later.
+
+---
+
+## 5. Use mock services until real partners are approved
+
+While waiting for payment-provider and legal confirmation, create interfaces such as:
+
+```text
+PaymentService
+PayoutService
+NotificationService
+ImageStorageService
+```
+
+Initially, your payment service can simply return test outcomes:
+
+```text
+PAYMENT_SUCCESS
+PAYMENT_FAILED
+PAYMENT_PENDING
+PAYMENT_CANCELED
+```
+
+This lets you build and test the entire buyer-to-seller order flow without touching real money.
+
+Later, you can replace the mock payment service with the approved provider integration without rebuilding the whole application.
+
+---
+
+## 6. Your first development milestone
+
+Your first usable milestone should be:
+
+> An approved seller can create a product listing; a buyer can browse it, add it to a single-seller cart, complete a mock checkout, and the seller can mark the order delivered.
+
+Do not move to real payments until this works reliably.
+
+## Your task for today
+
+Write the following five user stories:
+
+```text
+1. As a seller, I can create a shop profile and submit it for approval.
+
+2. As a seller, I can create a product listing with images, price in XOF,
+   inventory, and delivery information.
+
+3. As a buyer, I can browse approved products and add products from one
+   seller to my cart.
+
+4. As a buyer, I can complete a test checkout and receive an order
+   confirmation.
+
+5. As a seller, I can see a paid order and update its delivery status.
+```
+
+After that, the next practical decision is your **technology stack**: frontend, backend, database, image storage, hosting, authentication, and transactional email.
