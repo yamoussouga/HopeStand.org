@@ -1,1 +1,6 @@
-
+# MVP marketplace Contract
+__________________________
+> A Togo, only marketplace for independent sellers of Physical products (goods). Sellers create listings for physical products,
+customers buy one seller’s items per checkout, sellers ship orders directly, and the platform retains a 10% 
+commission before payouts. Initial launch supports card payments, refunds, order tracking, 
+and basic seller onboarding only.
