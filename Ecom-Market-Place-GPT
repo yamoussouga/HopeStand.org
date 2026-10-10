@@ -25,17 +25,22 @@ Complete these decisions before building:
    - Local pickup/service appointment
 
 5. **Who takes payment and manages refunds?**  
-   For a true marketplace, the platform usually collects customer payment, retains its fee, and pays sellers. This is a core legal, tax, dispute, and product-design choice—not merely an API choice.
+   For a true marketplace, the platform usually collects customer payment, retains its fee, and pays sellers. 
+This is a core legal, tax, dispute, and product-design choice—not merely an API choice.
 
 6. **How do you make money?**  
    Commission per order is simplest. Avoid subscriptions, ads, promotions, wallets, and multiple fee models in v1.
 
 7. **What is explicitly out of scope?**  
-   Example: “No international sales, no multi-seller carts, no subscriptions, no buyer-seller chat, no mobile app, no same-day delivery.”
+   Example: “No international sales, no multi-seller carts, no subscriptions, no buyer-seller chat, no mobile app, 
+no same-day delivery.”
 
 ### Example MVP statement
 
-> A U.S.-only marketplace for independent sellers of [category]. Sellers create listings for physical products, customers buy one seller’s items per checkout, sellers ship orders directly, and the platform retains a 10% commission before payouts. Initial launch supports card payments, refunds, order tracking, and basic seller onboarding only.
+> A U.S.-only marketplace for independent sellers of [category]. Sellers create listings for physical products,
+customers buy one seller’s items per checkout, sellers ship orders directly, and the platform retains a 10% 
+commission before payouts. Initial launch supports card payments, refunds, order tracking, 
+and basic seller onboarding only.
 
 If you cannot state this in a paragraph, the build scope is still too broad.
 
