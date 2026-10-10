@@ -1448,7 +1448,8 @@ Important design rule:
 
 > Keep `Order`, `Payment`, `Refund`, and `Payout` as separate records.
 
-For example, an order can be paid but not delivered. A seller can be eligible for a payout but not yet paid. A refund can be requested after delivery. Combining all of that into one status field will cause problems later.
+For example, an order can be paid but not delivered. A seller can be eligible for a payout but not yet paid.
+A refund can be requested after delivery. Combining all of that into one status field will cause problems later.
 
 ---
 
