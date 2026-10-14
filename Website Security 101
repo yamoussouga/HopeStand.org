@@ -1,0 +1,255 @@
+
+# .......................................................................................................................
+
+**BLUF:** Secure a website in layers: reduce exposed services, keep software patched, enforce strong authentication and authorization, code safely, protect the database, monitor activity, and test continuously. For SQL injection specifically, use **parameterized queries/prepared statements** everywhere—never assemble SQL commands by concatenating user input.
+
+## Step-by-step website security plan
+
+### 1. Inventory what you operate
+Create and maintain a list of:
+
+- Domains, subdomains, APIs, admin portals, cloud resources, databases, and third-party services
+- Software/framework versions and dependencies
+- Data types handled and where they reside
+- Accounts with administrative or database access
+- Internet-facing ports and services
+
+**Goal:** You cannot reliably protect systems you do not know exist.
+
+---
+
+### 2. Patch and harden the hosting environment
+- Apply security updates promptly to the OS, web server, runtime, CMS, framework, database, and plugins.
+- Remove unused software, sample applications, default accounts, and unnecessary open ports.
+- Use supported versions only; replace end-of-life components.
+- Separate production, development, and test environments.
+- Do not expose database administration interfaces or databases directly to the internet unless there is a documented, controlled need.
+
+For internet-facing systems, prioritize critical vulnerabilities and maintain centralized application, access, and security logging. 
+
+---
+
+### 3. Enforce HTTPS and secure transport
+- Redirect all HTTP traffic to HTTPS.
+- Use a valid TLS certificate and modern TLS configuration.
+- Enable **HTTP Strict Transport Security (HSTS)** after validation.
+- Mark session cookies as:
+  - `Secure`
+  - `HttpOnly`
+  - `SameSite=Lax` or `SameSite=Strict`, where compatible
+- Never place passwords, session tokens, API keys, or sensitive data in URLs.
+
+---
+
+### 4. Implement strong authentication
+- Require multi-factor authentication (MFA), especially for administrators and privileged accounts.
+- Prefer phishing-resistant MFA for high-value administrative access when practical.
+- Enforce strong password requirements and block known-compromised passwords.
+- Rate-limit login attempts and protect password-reset functions.
+- Require reauthentication for sensitive changes, such as changing an email address, password, payment method, or MFA device.
+- Disable dormant accounts and promptly remove access for departing personnel.
+
+Use separate standard and privileged accounts; users should not routinely operate with administrator or superuser privileges. 
+
+---
+
+### 5. Enforce authorization on every request
+Authentication answers **“who are you?”** Authorization answers **“are you allowed to do this?”**
+
+- Check authorization server-side for every sensitive action and every object requested.
+- Do not trust user IDs, role names, account IDs, or permissions submitted by the browser.
+- Use deny-by-default access controls.
+- Ensure users cannot alter a URL, API parameter, or object identifier to access someone else’s records.
+- Apply least privilege to users, services, application accounts, and administrators.
+
+Broken object-level authorization/IDOR flaws can allow attackers to access, alter, or delete another user’s data when server-side checks are missing. 
+
+---
+
+## 6. Prevent SQL injection
+
+### The primary rule: use parameterized queries
+Do **not** construct SQL like this:
+
+```python
+# Unsafe: never do this
+query = "SELECT * FROM users WHERE email = '" + email + "'"
+```
+
+Use parameter binding through your language’s database library or ORM:
+
+```python
+# Example pattern; placeholder syntax differs by database driver
+query = "SELECT * FROM users WHERE email = ?"
+db.execute(query, [email])
+```
+
+Parameterized queries ensure that user input is treated as data rather than executable SQL syntax. 
+
+### Additional SQL-injection controls
+1. **Use an ORM safely.** ORMs can help, but unsafe “raw SQL” features can reintroduce injection risk.
+2. **Validate inputs with allow-lists.** For fields such as sort direction, report type, or column name, accept only explicitly permitted values.
+3. **Avoid dynamic SQL.** If unavoidable, parameterize values and map dynamic identifiers to a fixed allow-list.
+4. **Do not rely on escaping alone.** Escaping is not the primary defense.
+5. **Use stored procedures carefully.** They are safe only when they avoid dynamic SQL built from untrusted input.
+6. **Use a least-privilege database account.**
+   - The application should not connect as database administrator.
+   - Give each service only the database permissions it requires.
+   - Separate read-only reporting access from write-capable application access.
+7. **Do not expose database error details to users.**
+   - Return a generic error page/message.
+   - Log diagnostic detail securely on the server.
+
+OWASP identifies prepared statements, properly constructed stored procedures, allow-list validation, and least-privilege database access as key SQL injection defenses. 
+
+---
+
+### 7. Validate input and encode output
+Treat all browser, API, URL, cookie, file, and third-party data as untrusted.
+
+- Validate type, length, range, format, and allowed values on the server.
+- Use allow-lists where feasible—for example, accepted file extensions or report formats.
+- Encode output for the destination context:
+  - HTML encoding for HTML pages
+  - Attribute encoding for HTML attributes
+  - JavaScript-safe encoding in scripts
+  - URL encoding for URL parameters
+- Sanitize user-supplied HTML if you intentionally permit formatted content.
+
+This reduces risks including cross-site scripting (XSS), command injection, path traversal, and malformed input attacks.
+
+---
+
+### 8. Protect sessions, secrets, and sensitive data
+- Store passwords with a modern adaptive password-hashing algorithm such as Argon2id, bcrypt, or scrypt—never reversible encryption or plain text.
+- Keep secrets in a dedicated secret-management service or protected environment configuration, not in source code or public repositories.
+- Rotate exposed keys, tokens, and credentials immediately.
+- Encrypt sensitive data at rest where appropriate.
+- Minimize collection and retention of sensitive data.
+- Avoid logging passwords, access tokens, session IDs, full payment data, or unnecessary personal data.
+
+---
+
+### 9. Configure browser and web-server protections
+Set security headers appropriate to your application, including:
+
+- `Content-Security-Policy` (CSP)
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy`
+- `Permissions-Policy`
+- `Frame-Options` or CSP `frame-ancestors`
+- HSTS
+
+Also:
+- Disable directory listing.
+- Limit upload sizes and request body sizes.
+- Configure CORS narrowly—do not use `Access-Control-Allow-Origin: *` for authenticated or sensitive APIs.
+- Add rate limiting for login, registration, password reset, search, and expensive API endpoints.
+
+---
+
+### 10. Secure file uploads
+If users can upload files:
+
+- Allow only necessary file types.
+- Validate file content, not just the extension or browser-provided MIME type.
+- Rename files server-side.
+- Store uploads outside the web root or in object storage.
+- Prevent uploaded files from executing as scripts.
+- Scan uploads for malware where required.
+- Apply size limits, quotas, and access controls.
+
+---
+
+### 11. Add protective infrastructure
+Use defense in depth:
+
+- A web application firewall (WAF) to reduce exposure to common malicious requests
+- DDoS protection/CDN where appropriate
+- Network segmentation between web servers, application servers, and databases
+- Firewall rules permitting only necessary traffic
+- Endpoint protection and hardened administrative access
+- Backups that are encrypted, tested, and protected from unauthorized deletion
+
+A WAF is useful, but it **does not replace secure coding**, especially parameterized database queries.
+
+---
+
+### 12. Log, monitor, and alert
+Log security-relevant events, such as:
+
+- Authentication successes and failures
+- Password resets and MFA changes
+- Privilege and account changes
+- Access-denied events
+- Administrative actions
+- API errors and unusual request rates
+- Database/application exceptions
+
+Then:
+- Centralize logs.
+- Synchronize system time.
+- Protect logs from alteration.
+- Alert on suspicious patterns, such as repeated failed logins, unexpected administrator changes, spikes in 4xx/5xx errors, or anomalous database requests.
+
+Avoid putting secrets, passwords, or session tokens in logs.
+
+---
+
+### 13. Build security into development and deployment
+Before release:
+
+- Require code review for security-sensitive changes.
+- Use dependency scanning for vulnerable libraries.
+- Use secret scanning to prevent credentials entering repositories.
+- Run static application security testing (SAST).
+- Run dynamic testing (DAST) against authorized test environments.
+- Maintain a software bill of materials (SBOM) where applicable.
+- Use automated deployment with peer review and rollback capability.
+- Separate deployment credentials from developer accounts.
+
+Use OWASP ASVS as a verification checklist and choose an assurance level appropriate to the application’s risk and data sensitivity. OWASP describes ASVS as a basis for testing application security controls and establishing expected verification rigor. 
+
+---
+
+### 14. Test SQL injection safely
+In a **non-production environment you are authorized to test**, verify that:
+
+- Every database call uses parameter binding.
+- Inputs containing quotes and unusual characters do not alter query behavior.
+- Error responses do not disclose SQL syntax, table names, database versions, or stack traces.
+- Database accounts cannot perform unnecessary actions, such as schema changes or administrative functions.
+- API endpoints enforce authorization independently of client-side controls.
+
+Do not test production systems aggressively without authorization, a defined scope, and rollback/incident procedures.
+
+---
+
+### 15. Prepare for incidents
+Create and rehearse a plan that covers:
+
+1. How to detect and triage an incident  
+2. Who has authority to contain systems  
+3. How to revoke credentials and sessions  
+4. How to preserve logs and evidence  
+5. How to restore from known-good backups  
+6. How to notify required stakeholders  
+7. How to identify root cause and prevent recurrence  
+
+---
+
+## Minimum baseline checklist
+
+- [ ] HTTPS enforced; secure cookies configured  
+- [ ] OS, web server, CMS/framework, database, and dependencies patched  
+- [ ] MFA required for administrators  
+- [ ] Authorization checked server-side on every sensitive request  
+- [ ] Parameterized queries used for all database access  
+- [ ] No application database account has administrator privileges  
+- [ ] Inputs validated; outputs contextually encoded  
+- [ ] Secrets are outside source code and rotated when exposed  
+- [ ] Security headers, rate limits, and restrictive CORS configured  
+- [ ] Logs centralized and monitored  
+- [ ] Backups tested and protected  
+- [ ] SAST, dependency/secret scanning, and authorized security testing included in releases  
+- [ ] Incident-response process documented and exercised
