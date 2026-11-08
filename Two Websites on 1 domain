@@ -1,0 +1,821 @@
+**BLUF:** Yes. The simplest approach is to use **one main domain** for your nonprofit and a **subdomain** for the marketplace:
+
+- **Nonprofit:** `www.hopestand.org` (or `hopestand.org`)
+- **Marketplace:** `marketplace.hopestand.org`
+
+These are usually called **subdomains**, rather than alias links. You can host each as a separate website while keeping the single `hopestand.org` domain registration. Squarespace supports custom subdomains and can direct them either to another Squarespace site or to an external platform. 
+
+## Recommended structure
+
+| Purpose | Public link | Notes |
+|---|---|---|
+| HopeStand nonprofit site | `www.hopestand.org` | Make this your primary public-facing website. |
+| HopeStand marketplace | `marketplace.hopestand.org` | A separate site/store with its own content, branding, and navigation. |
+| Optional short redirect | `shop.hopestand.org` | Can redirect visitors to the marketplace link if you prefer a shorter name. |
+
+You could also use `shop.hopestand.org` instead of `marketplace.hopestand.org`. I recommend **`marketplace.hopestand.org`** because it is immediately clear to visitors.
+
+---
+
+# Option A — Both websites built on Squarespace
+
+This is the most straightforward if you want both websites managed in Squarespace.
+
+### Before you begin
+You will need:
+
+1. Your existing Squarespace domain: `hopestand.org`
+2. **Two separate Squarespace websites/subscriptions**:
+   - One website for the nonprofit
+   - One website for the marketplace
+
+A domain can point visitors to different destinations, but it does **not** turn one Squarespace site subscription into two independent websites. 
+
+## Step 1: Build the nonprofit website
+
+1. Sign in to Squarespace.
+2. From your account dashboard, create or open your nonprofit website.
+3. Add your core pages, for example:
+   - Home
+   - About Us
+   - Programs / Our Work
+   - Donate
+   - Contact
+4. Open **Settings → Domains**.
+5. Connect or assign `hopestand.org` to this nonprofit site.
+6. Set either:
+   - `www.hopestand.org` as the primary domain, **or**
+   - `hopestand.org` as the primary domain.
+
+**Recommendation:** Use `www.hopestand.org` as the primary address and allow Squarespace to redirect the non-`www` version to it. This avoids visitors reaching two versions of the same nonprofit site.
+
+## Step 2: Create the marketplace as a second Squarespace site
+
+1. Return to your Squarespace account dashboard.
+2. Select **Create Website**.
+3. Choose a commerce-friendly template.
+4. Build the marketplace site:
+   - Home
+   - Browse Products / Categories
+   - Seller information
+   - FAQ
+   - Contact / Support
+   - Policies
+5. Add products and configure payments, shipping, taxes, and policies when you are ready.
+
+Squarespace Commerce may work well if **you** will sell products. If your marketplace will allow **multiple independent sellers** to create accounts, list products, and receive payouts, you may eventually need a dedicated multi-vendor marketplace platform rather than standard Squarespace Commerce.
+
+## Step 3: Connect `marketplace.hopestand.org` to the marketplace site
+
+On the **marketplace Squarespace site**:
+
+1. Go to **Settings → Domains**.
+2. Select **Use a Domain I Own**.
+3. Enter:
+   ```text
+   marketplace.hopestand.org
+   ```
+4. Continue through the connection process.
+5. Squarespace will provide the DNS information needed to connect that subdomain.
+
+Squarespace’s current process for a subdomain begins by entering the complete subdomain—such as `blog.yourdomain.com`—in the site’s Domains panel. 
+
+## Step 4: Add the marketplace subdomain in your Squarespace domain settings
+
+Because you purchased the domain through Squarespace:
+
+1. Open the Squarespace **Domains Dashboard**.
+2. Select **hopestand.org**.
+3. Look for one of these paths, depending on your domain configuration:
+   - **Website → Domain Forwarding Rules → Add Rule**, or
+   - **DNS → Custom Records → Add Record**.
+4. Create the `marketplace` subdomain using the exact destination or DNS record Squarespace provides for the marketplace site.
+5. Save your changes.
+
+Squarespace notes that custom subdomains can point to the same site or elsewhere. If your domain uses Squarespace nameservers, you can create them through DNS records; if the dashboard provides **Domain Forwarding**, you can create a forwarding rule there. 
+
+## Step 5: Set the marketplace subdomain as that site’s primary domain
+
+1. Go back to the marketplace site.
+2. Open **Settings → Domains**.
+3. Confirm `marketplace.hopestand.org` shows **Connected**.
+4. Set it as the marketplace site’s **primary domain**.
+5. If Squarespace displays a “Use WWW Prefix” setting, ensure the marketplace remains:
+   ```text
+   marketplace.hopestand.org
+   ```
+   —not `www.marketplace.hopestand.org`.
+
+## Step 6: Add links between both websites
+
+On the nonprofit site header/menu, add:
+
+- **Marketplace** → `https://marketplace.hopestand.org`
+
+On the marketplace site header/menu, add:
+
+- **About HopeStand** → `https://www.hopestand.org`
+
+This makes the two sites feel like one connected organization while keeping their content separate.
+
+---
+
+# Option B — Nonprofit on Squarespace; marketplace on another platform
+
+This may be better if your marketplace needs more advanced features.
+
+Example setup:
+
+- Nonprofit: `www.hopestand.org` — Squarespace
+- Marketplace: `marketplace.hopestand.org` — Shopify, Sharetribe, WooCommerce, or another marketplace-oriented platform
+
+### Steps
+
+1. Build your nonprofit website in Squarespace and connect `www.hopestand.org`.
+2. Create your marketplace account and website on the platform you choose.
+3. In that platform’s domain settings, add:
+   ```text
+   marketplace.hopestand.org
+   ```
+4. The platform will give you a DNS record—usually a **CNAME** record.
+5. In Squarespace:
+   - Open **Domains Dashboard**
+   - Select `hopestand.org`
+   - Choose **DNS**
+   - Add the provided record under **Custom Records**
+6. Wait for the marketplace platform to verify the connection.
+7. Add navigation links between both sites.
+
+Do **not** remove or overwrite the existing root-domain (`hopestand.org`) records that keep your nonprofit site connected. Only add the new record for the `marketplace` host/subdomain. Squarespace supports adding DNS records, including CNAME records, for Squarespace-managed domains. 
+
+---
+
+# If you only want two different links, but not two separate sites
+
+You can instead use:
+
+- `hopestand.org` — nonprofit home page
+- `hopestand.org/marketplace` — marketplace page or shop section
+
+This is cheaper and easier at the beginning because it is one website. However, it is **not** ideal if the marketplace will grow into a genuinely separate business experience or requires multi-vendor capabilities.
+
+If the marketplace is simply a small shop selling HopeStand items, this can be a good first phase. If it will host sellers, vendor profiles, commissions, buyer/seller payments, and fulfillment workflows, choose the separate-subdomain approach from the start.
+
+---
+
+# Important distinction: subdomain vs. redirect/alias
+
+- **Subdomain:** `marketplace.hopestand.org`  
+  A distinct web address that can load a different website. **Best choice for you.**
+
+- **Redirect/forwarding alias:** `shop.hopestand.org` → redirects to `marketplace.hopestand.org`  
+  Useful as an optional extra short link, but not the main setup.
+
+- **Path:** `hopestand.org/marketplace`  
+  A page within the same website, not a separate website.
+
+Squarespace also supports URL mappings for redirects, including redirects from a page on your site to another domain. 
+
+---
+
+# Practical recommendation
+
+Start with:
+
+```text
+www.hopestand.org                → HopeStand nonprofit website
+marketplace.hopestand.org        → HopeStand marketplace website
+```
+
+Then, if you want a shorter promotional address, add:
+
+```text
+shop.hopestand.org               → redirects to marketplace.hopestand.org
+```
+
+Before changing DNS, verify that you are authorized to manage the domain and follow your organization’s applicable access, handling, records, and release policies.
+
+
+
+#################################################################
+
+
+
+Yes — you can make **`shop.hopestand.org`** an alias that redirects visitors to:
+
+```text
+marketplace.hopestand.org
+```
+
+Use a **permanent redirect (301)** because this will be your long-term marketplace address.
+
+## Steps in Squarespace
+
+1. Sign in to **Squarespace** and open the **Domains Dashboard**.
+2. Select **`hopestand.org`**.
+3. Open **DNS** or **Domain Forwarding Rules** (the exact label may vary in your dashboard).
+4. Choose **Add Forwarding Rule**.
+5. Enter:
+   - **Subdomain/source:** `shop`
+   - **Destination:** `https://marketplace.hopestand.org`
+   - **Redirect type:** **Permanent (301)**
+6. Save the rule.
+7. Test both:
+   - `https://shop.hopestand.org`
+   - `https://marketplace.hopestand.org`
+
+Visitors should briefly see `shop.hopestand.org` and then land at `marketplace.hopestand.org`. Squarespace permits domains to be forwarded or pointed to another site. 
+
+## Important: do not use a CNAME or ALIAS record for this purpose
+
+A DNS **CNAME** or **ALIAS** points a domain name to another host; it does not reliably create the browser redirect you want. For the clean “send visitors from `shop` to `marketplace`” behavior, use **Domain Forwarding / a 301 redirect** instead. Squarespace describes CNAME records as DNS pointers for subdomains, while URL redirects are the feature designed to forward visitors to another URL. 
+
+Your final setup would be:
+
+```text
+www.hopestand.org              → Nonprofit website
+marketplace.hopestand.org      → Marketplace website
+shop.hopestand.org             → 301 redirect to marketplace.hopestand.org
+```
+
+
+#################################
+
+
+
+
+## BLUF
+
+Treat this as **one learning program with two related products**, not as two full websites you try to finish at once. Build a shared HopeStand design system first; launch the nonprofit site as the first minimum viable product (MVP); then use the same visual foundation to build the marketplace.
+
+I am assuming you mean **WordPress** when you say themes and plugins. If you are using a different platform, the sequence still applies, but the technical steps will differ.
+
+---
+
+# 1. Make the key architecture decision first
+
+Use your Squarespace purchase only as the **domain registrar/DNS manager** if you wish, and host the actual websites on a WordPress-capable web host.
+
+Recommended structure:
+
+```text
+www.hopestand.org                → Nonprofit WordPress site
+marketplace.hopestand.org        → Marketplace WordPress + WooCommerce site
+shop.hopestand.org               → Redirect to marketplace.hopestand.org
+```
+
+For a beginner, use **two independent WordPress installations**, not WordPress Multisite.
+
+Why:
+
+- The nonprofit and marketplace have different purposes and risks.
+- A commerce problem, plugin conflict, or payment issue should not take down the nonprofit site.
+- Each site can have its own theme, plugins, backups, staging area, and update schedule.
+- You will learn the real professional workflow of managing separate environments.
+
+Squarespace-managed domains can use DNS records such as A and CNAME records to point a domain or subdomain to a separate web host. 
+
+---
+
+# 2. Do not “clone” the unsupported theme blindly
+
+A better goal is:
+
+> **Rebuild the design and functionality you need as your own maintainable HopeStand theme.**
+
+Do not directly edit the unsupported theme and do not depend on it as your production foundation. Also, review its license before copying code, images, fonts, templates, or proprietary assets into a new public theme.
+
+Instead, use it as a **design reference**:
+
+1. Take screenshots of every page and responsive view you like.
+2. List its reusable elements:
+   - Header and navigation
+   - Footer
+   - Buttons
+   - Colors
+   - Typography
+   - Donation calls-to-action
+   - Hero sections
+   - Cards
+   - Testimonial sections
+   - Contact forms
+   - Product cards
+3. Rebuild those components one at a time with your own HTML, CSS, PHP, and WordPress templates.
+4. Use your own images, logo, copy, and brand assets.
+
+WordPress themes have a defined file and folder structure, and block themes use standard templates, template parts, styles, and configuration files. Learning that structure will make your own theme easier to maintain. 
+
+---
+
+# 3. Set up a professional development workflow before writing pages
+
+Do this first—even before designing the home page.
+
+## A. Create four environments
+
+For each website, use:
+
+| Environment | Purpose |
+|---|---|
+| **Local** | Your computer; where you learn and build safely. |
+| **Development** | Optional shared testing environment. |
+| **Staging** | A private/pre-launch copy that resembles the live site. |
+| **Production** | The public website visitors use. |
+
+**Rule:** Do not make untested code changes directly on the public site.
+
+## B. Install the core tools
+
+Set up:
+
+- A code editor, such as VS Code
+- Git
+- A GitHub, GitLab, or other private Git repository
+- Local WordPress development software
+- A modern browser with developer tools
+- A password manager
+- A task tracker, even if it is only a simple spreadsheet or Kanban board
+
+## C. Create two Git repositories
+
+Use one repository for each site:
+
+```text
+hopestand-nonprofit
+hopestand-marketplace
+```
+
+Commit your work frequently:
+
+```text
+Initial WordPress theme structure
+Build homepage hero section
+Add mobile navigation
+Create donation call-to-action block
+Set up WooCommerce product template
+Fix checkout mobile layout
+```
+
+Do **not** put WordPress core files, plugin files, passwords, API keys, backups, or uploaded customer files in a public repository.
+
+---
+
+# 4. Build a shared HopeStand design system
+
+Before building either full site, make a simple design guide. This will prevent you from redesigning buttons and colors repeatedly.
+
+Create a document called:
+
+```text
+HopeStand Design System v1
+```
+
+Include:
+
+## Brand basics
+
+- Logo versions
+- Primary and secondary colors
+- Background colors
+- Text colors
+- Heading fonts
+- Body fonts
+- Button styles
+- Border-radius rules
+- Image style rules
+- Spacing scale
+
+Example spacing scale:
+
+```text
+8px   – small gap
+16px  – normal gap
+24px  – medium section spacing
+40px  – large spacing
+64px  – major section spacing
+```
+
+## Reusable website components
+
+Build and test these first:
+
+1. Announcement bar
+2. Header/navigation
+3. Mobile menu
+4. Hero section
+5. Button styles
+6. Section title
+7. Content card
+8. Image-and-text section
+9. Call-to-action section
+10. Footer
+11. Contact form section
+12. Product card
+13. Product category card
+14. FAQ accordion
+
+Do not build every page from scratch. Build pages by assembling tested components.
+
+---
+
+# 5. Build the nonprofit site first
+
+The nonprofit site is normally less technically risky than ecommerce. It lets you learn your theme structure, WordPress editing workflow, responsiveness, forms, accessibility, and deployment process before adding payments and customer transactions.
+
+## Nonprofit MVP pages
+
+Start with only these:
+
+```text
+Home
+About HopeStand
+Our Work / Programs
+Get Involved
+Donate
+Contact
+Privacy Policy
+Terms or Site Notice
+```
+
+Do not delay launch because you want ten programs, a blog, a resource library, volunteer portals, or advanced animations. Launch a credible, clear, mobile-friendly version first.
+
+## Suggested nonprofit build order
+
+### Week 1: Foundation
+- Configure local WordPress.
+- Create your custom HopeStand nonprofit theme.
+- Build the header, footer, typography, colors, and buttons.
+- Add a responsive navigation menu.
+
+### Week 2: Home page
+- Build the hero section.
+- Add HopeStand’s mission statement.
+- Add 2–3 program or impact cards.
+- Add a “Donate” and “Get Involved” call-to-action.
+- Add a marketplace link.
+
+### Week 3: Core pages
+- Build About, Programs, Contact, and Donate pages.
+- Add contact form and anti-spam protection.
+- Test every page on mobile.
+
+### Week 4: Quality and launch preparation
+- Add SEO page titles and descriptions.
+- Add privacy and site policies.
+- Test forms and notification emails.
+- Check navigation, broken links, image sizes, and page speed.
+- Move the site to staging for review.
+
+---
+
+# 6. Build the marketplace as a store first—not a multi-vendor marketplace
+
+This distinction is important.
+
+## Phase 1: Store
+
+A store means HopeStand controls the products, inventory, pricing, customer service, and payouts.
+
+This is much simpler and is the correct first version for most new founders.
+
+```text
+HopeStand Marketplace v1:
+HopeStand sells selected products online.
+```
+
+## Phase 2: Multi-vendor marketplace
+
+A true marketplace means independent sellers can:
+
+- Register accounts
+- Create seller profiles
+- Upload products
+- Manage inventory
+- Receive payouts
+- Handle returns or disputes
+- Follow seller rules
+- Potentially ship orders themselves
+
+That is substantially more complex because it adds payment splitting, seller verification, tax treatment, terms, fraud prevention, dispute handling, and support processes.
+
+**Recommendation:** Build the marketplace site now, but launch it first as a carefully managed HopeStand store. Add third-party sellers only after you have validated demand, payment flow, delivery/fulfillment, policies, and customer support.
+
+---
+
+# 7. Build the marketplace in this order
+
+WooCommerce is designed as an ecommerce extension for self-hosted WordPress. Its setup workflow covers products, payments, styling, tax, shipping, and launching the store. 
+
+## Marketplace MVP pages
+
+```text
+Home
+Shop
+Product Categories
+Single Product Page
+Cart
+Checkout
+About the Marketplace
+Shipping and Returns
+Frequently Asked Questions
+Contact / Customer Support
+Privacy Policy
+Terms and Conditions
+```
+
+## Marketplace build order
+
+### Step 1: Create the WordPress installation
+
+Install a separate WordPress site for:
+
+```text
+marketplace.hopestand.org
+```
+
+Keep it separate from the nonprofit site.
+
+### Step 2: Install WooCommerce
+
+Install WooCommerce and complete only the core setup:
+
+- Store location
+- Currency
+- Products
+- Shipping approach
+- Taxes
+- Payment method
+- Order email notifications
+
+WooCommerce’s setup checklist is intended to guide store owners through core launch decisions, including products, payments, taxes, shipping, customization, and launch readiness. 
+
+### Step 3: Create a marketplace theme
+
+Do not try to make the nonprofit theme do everything.
+
+Create a separate custom theme, such as:
+
+```text
+hopestand-marketplace-theme
+```
+
+It can share the HopeStand colors, fonts, button styles, footer, and branding—but product pages, cart pages, and checkout flows need their own layouts and testing.
+
+### Step 4: Add 5–10 test products
+
+Use test products before real inventory:
+
+- One low-cost product
+- One product with multiple variations
+- One out-of-stock product
+- One digital or downloadable item, if relevant
+- One product with shipping requirements
+
+Test:
+
+- Add to cart
+- Update quantity
+- Remove from cart
+- Checkout
+- Confirmation email
+- Order-management workflow
+- Refund/cancellation process
+
+### Step 5: Choose payments carefully
+
+Before accepting real payments, confirm:
+
+- The payment provider works for your business location and legal entity.
+- It supports your planned customer locations.
+- It supports your preferred payout method.
+- Its transaction fees are acceptable.
+- Refunds and chargebacks can be handled.
+- You can meet any identity-verification or business-verification requirements.
+
+Because HopeStand is intended to operate in Togo, verify local business, consumer-protection, tax, payment, and data-handling requirements through appropriate local professional advice before launch.
+
+---
+
+# 8. Use plugins intentionally—not excessively
+
+There are no universal “mandatory plugins.” What is mandatory is having the **capability** to protect, maintain, monitor, and operate the sites responsibly.
+
+Use the fewest well-supported plugins necessary.
+
+## Baseline capability checklist
+
+### Both websites need
+
+| Capability | Why it matters |
+|---|---|
+| Backups | Lets you restore after mistakes, attacks, or failed updates. |
+| Security protection | Helps reduce common attacks and brute-force login attempts. |
+| Update management | Keeps WordPress, themes, and plugins current. |
+| Performance/caching | Improves page speed, especially on mobile networks. |
+| Image optimization | Helps reduce slow loading caused by large images. |
+| SMTP/transactional email | Improves reliability of form and order emails. |
+| Spam protection | Protects contact forms and checkout forms. |
+| SEO basics | Lets you manage titles, descriptions, indexing, and sitemaps. |
+| Analytics | Helps you understand visitors and conversions. |
+| Cookie/privacy controls, as applicable | Supports transparent data practices. |
+
+### Marketplace also needs
+
+| Capability | Why it matters |
+|---|---|
+| Ecommerce engine | Products, cart, checkout, orders, inventory. |
+| Payment gateway | Accepts payments and processes refunds. |
+| Shipping configuration | Calculates or communicates delivery options. |
+| Tax configuration | Supports the store’s tax process. |
+| Fraud/checkout protection | Reduces payment and spam risk. |
+| Order-notification email | Keeps customers and staff informed. |
+
+Avoid installing two plugins that do the same job—for example, two caching plugins, two SEO plugins, or multiple security plugins. That creates conflicts and makes troubleshooting harder.
+
+---
+
+# 9. Learn WordPress theme development in the right sequence
+
+Do not try to learn all of PHP, WordPress, CSS, JavaScript, WooCommerce, SEO, accessibility, security, payment systems, and hosting at the same time.
+
+Learn in this order:
+
+## Stage 1: HTML and CSS
+
+Learn enough to build:
+
+- Sections
+- Grids
+- Responsive layouts
+- Navigation
+- Buttons
+- Cards
+- Forms
+- Mobile layouts
+
+## Stage 2: WordPress theme fundamentals
+
+Learn:
+
+- Theme folders and files
+- `style.css`
+- Theme configuration
+- Templates
+- Template parts
+- Headers and footers
+- Menus
+- Page templates
+- WordPress loops/content display
+
+WordPress uses a template hierarchy to determine which template is used for pages, front pages, posts, archives, and other views. 
+
+## Stage 3: WordPress blocks
+
+Learn to create flexible sections that you can edit through the WordPress dashboard without rewriting code every time.
+
+Your goal should be:
+
+> “I can create a new HopeStand page by combining approved blocks and components.”
+
+## Stage 4: PHP and custom functionality
+
+Learn enough PHP to:
+
+- Register custom post types, if needed
+- Register custom blocks or settings
+- Add theme options carefully
+- Modify WooCommerce displays
+- Create small custom plugins
+
+## Stage 5: JavaScript
+
+Use JavaScript later for:
+
+- Menu interactions
+- Product filters
+- Dynamic search
+- Sliders only when necessary
+- Enhanced user experience
+
+Do not begin with advanced JavaScript animations. A fast, clear, accessible site is more valuable than an impressive but fragile one.
+
+---
+
+# 10. Use this 10-week practical plan
+
+| Week | Primary outcome |
+|---|---|
+| 1 | Hosting, local environment, Git, staging, WordPress installations |
+| 2 | HopeStand design system and shared reusable components |
+| 3 | Nonprofit theme header, footer, navigation, global styles |
+| 4 | Nonprofit home page and primary content pages |
+| 5 | Nonprofit forms, mobile testing, policies, staging review |
+| 6 | Nonprofit launch; fix real-world issues |
+| 7 | Marketplace WordPress installation and WooCommerce configuration |
+| 8 | Marketplace theme, product/category layouts, test products |
+| 9 | Cart, checkout, transactional email, shipping, payment testing |
+| 10 | Marketplace staging review, policies, security checks, controlled launch |
+
+Use a **70/30 workload split**:
+
+- **70%** of your weekly work: the site closest to launch
+- **30%**: shared components or preparation for the other site
+
+For the first six weeks, that means primarily the nonprofit site. After it launches, shift the focus to the marketplace.
+
+---
+
+# 11. Use a simple task board
+
+Create these columns:
+
+```text
+Ideas
+Planned
+In Progress
+Testing
+Ready for Launch
+Completed
+```
+
+Examples of tasks:
+
+```text
+Create HopeStand color palette
+Build responsive navigation
+Write nonprofit mission statement
+Create donation call-to-action
+Set up contact-form email delivery
+Create product category template
+Test checkout on Android phone
+Write return policy
+Configure backups
+Test restoring a backup
+```
+
+Every task should be small enough to complete in one focused session whenever possible.
+
+Bad task:
+
+```text
+Build marketplace
+```
+
+Good tasks:
+
+```text
+Create product-card component
+Add product-category navigation
+Configure test shipping zone
+Test order confirmation email
+Create mobile cart layout
+```
+
+---
+
+# 12. Your launch standard
+
+Do not launch because the website is “perfect.” Launch when it is **safe, accurate, clear, and usable**.
+
+Before each launch, verify:
+
+- Site works on phone, tablet, and desktop.
+- Navigation works.
+- Forms send messages to the correct email address.
+- All buttons and links work.
+- Images have useful alternative text.
+- No test content or placeholder text remains.
+- HTTPS/SSL is active.
+- Backups are enabled and tested.
+- WordPress, theme, and plugins are updated.
+- Admin accounts use strong passwords and multi-factor authentication where available.
+- The nonprofit site has clear contact and donation information.
+- The marketplace has clear prices, shipping information, return/refund terms, and support contact information.
+- Test orders complete correctly before real customers use checkout.
+
+---
+
+# First action for today
+
+Create a one-page planning document with these headings:
+
+```text
+1. HopeStand nonprofit mission and primary audience
+2. Marketplace purpose and primary audience
+3. Must-have features for Version 1
+4. Features postponed until Version 2
+5. Pages required for each site
+6. HopeStand colors, fonts, and visual inspiration
+7. Hosting and development tool choices
+8. Launch target for the nonprofit site
+9. Launch target for the marketplace site
+10. Known risks or unanswered questions
+```
+
+Then begin building only these three items:
+
+1. Your local WordPress environment  
+2. Your Git repository  
+3. The HopeStand header, footer, colors, and typography  
+
+That gives both sites a professional foundation without overwhelming you.
