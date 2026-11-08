@@ -13,6 +13,1032 @@ At the end of your first week, you should have these five things:
 5. A project board listing all 26 weekly targets
 That gives you a disciplined path from commitment to a usable HopeStand nonprofit site and marketplace store by May 8, 2027.
 
+
 ###########################
-# STEP 2
+# How to do STEP1?
 ###########################
+
+## BLUF
+
+Use this setup:
+
+```text
+GitHub private repository  → your custom HopeStand theme code
+LocalWP reference site     → original purchased theme; do not modify
+LocalWP development sites  → your nonprofit and marketplace builds
+Host staging sites         → private pre-launch testing
+GitHub Project board       → all 26 weeks and weekly tasks
+Spreadsheet                → feature-by-feature theme reproduction checklist
+```
+
+I will use **GitHub** for the private repository and **LocalWP (Local)** for local WordPress development because they are practical for a beginner and work well together. Local’s own guidance recommends keeping the repository focused on the theme or plugin code you are responsible for—not the entire WordPress installation. 
+
+---
+
+# Part 1 — Create a private Git repository for `hopestand-core-theme`
+
+## Goal
+
+Create a private online home for the code you write for your new custom HopeStand parent theme.
+
+Your repository will contain:
+
+```text
+hopestand-core-theme/
+```
+
+It should **not** contain:
+
+```text
+WordPress core files
+wp-config.php
+passwords
+API keys
+payment keys
+database exports
+customer data
+uploads
+the original purchased theme, unless its license explicitly permits this use
+```
+
+A GitHub repository stores files and their revision history, and GitHub lets you choose private visibility when you create it. 
+
+---
+
+## Step 1.1 — Create or sign in to GitHub
+
+1. Go to GitHub in your browser.
+2. Create an account if you do not already have one.
+3. Turn on multi-factor authentication for the account.
+4. Choose a professional username you will be comfortable using long term.
+
+Example:
+
+```text
+yourname
+hopestand-dev
+hope-stand
+```
+
+Avoid using a username that exposes unnecessary personal details.
+
+---
+
+## Step 1.2 — Create the repository
+
+1. In GitHub, select the **+** icon in the upper-right corner.
+2. Select **New repository**.
+3. Enter these settings:
+
+| Field | Value |
+|---|---|
+| Owner | Your GitHub account |
+| Repository name | `hopestand-core-theme` |
+| Description | `Custom WordPress parent theme for HopeStand nonprofit and marketplace websites.` |
+| Visibility | **Private** |
+| Add a README file | Leave unchecked for now |
+| Add .gitignore | Leave blank for now |
+| Choose a license | Leave blank for now |
+
+4. Select **Create repository**.
+
+GitHub’s repository-creation workflow supports creating a repository from the web interface and selecting private visibility. 
+
+5. Keep the GitHub page open. You will need the repository address shortly.
+
+It will look similar to:
+
+```text
+https://github.com/YOUR-USERNAME/hopestand-core-theme.git
+```
+
+---
+
+## Step 1.3 — Create your starter theme folder locally
+
+Do this after you complete Part 2 and have LocalWP installed.
+
+Inside your LocalWP site folder, you will eventually create:
+
+```text
+wp-content/
+  themes/
+    hopestand-core-theme/
+```
+
+Inside `hopestand-core-theme`, create these initial files:
+
+```text
+hopestand-core-theme/
+  style.css
+  functions.php
+  index.php
+  README.md
+  .gitignore
+```
+
+### File: `style.css`
+
+Paste this:
+
+```css
+/*
+Theme Name: HopeStand Core Theme
+Theme URI: https://hopestand.org
+Author: HopeStand
+Author URI: https://hopestand.org
+Description: Custom reusable WordPress parent theme for HopeStand.
+Version: 0.1.0
+Text Domain: hopestand-core-theme
+*/
+```
+
+### File: `functions.php`
+
+Paste this:
+
+```php
+<?php
+/**
+ * HopeStand Core Theme functions.
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+function hopestand_core_enqueue_styles() {
+	wp_enqueue_style(
+		'hopestand-core-style',
+		get_stylesheet_uri(),
+		array(),
+		'0.1.0'
+	);
+}
+add_action( 'wp_enqueue_scripts', 'hopestand_core_enqueue_styles' );
+```
+
+### File: `index.php`
+
+Paste this:
+
+```php
+<?php
+get_header();
+?>
+
+<main id="main-content">
+	<?php
+	if ( have_posts() ) {
+		while ( have_posts() ) {
+			the_post();
+			the_content();
+		}
+	}
+	?>
+</main>
+
+<?php
+get_footer();
+```
+
+### File: `.gitignore`
+
+Paste this:
+
+```gitignore
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+node_modules/
+vendor/
+```
+
+### File: `README.md`
+
+Paste this:
+
+```md
+# HopeStand Core Theme
+
+Custom reusable WordPress parent theme for:
+
+- HopeStand nonprofit website
+- HopeStand marketplace website
+
+## Repository Rules
+
+Do not commit:
+
+- passwords
+- API keys
+- payment keys
+- WordPress core
+- databases
+- customer information
+- uploads
+- original vendor-theme code or assets unless license terms permit it
+```
+
+---
+
+## Step 1.4 — Initialize Git and send your theme to GitHub
+
+After you create the local theme folder and files:
+
+1. In LocalWP, open your development site.
+2. Right-click the site name.
+3. Select **Open Site Shell**.
+4. Navigate to your theme folder.
+
+Your command will be similar to:
+
+```bash
+cd app/public/wp-content/themes/hopestand-core-theme
+```
+
+Local documents using **Open Site Shell**, navigating into `wp-content`, and initializing Git inside the theme directory when the repository is intended to track only a theme. 
+
+5. Run these commands one at a time:
+
+```bash
+git init -b main
+```
+
+```bash
+git add .
+```
+
+```bash
+git commit -m "Initial HopeStand core theme structure"
+```
+
+6. Connect your local repository to GitHub. Replace `YOUR-USERNAME` with your GitHub username:
+
+```bash
+git remote add origin https://github.com/YOUR-USERNAME/hopestand-core-theme.git
+```
+
+7. Upload your code:
+
+```bash
+git push -u origin main
+```
+
+8. Refresh the GitHub repository page. You should see:
+
+```text
+style.css
+functions.php
+index.php
+README.md
+.gitignore
+```
+
+If Git asks you to identify yourself, use:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+```
+
+Then repeat the commit and push commands.
+
+---
+
+# Part 2 — Create a local WordPress installation with the original theme
+
+## Goal
+
+Create a **reference copy** of the original purchased theme on your computer.
+
+Do not build your new theme inside this reference site. Preserve it so you can study every page, option, layout, WooCommerce template, widget, and mobile behavior.
+
+You should eventually have three LocalWP sites:
+
+```text
+1. hopestand-original-reference
+2. hopestand-nonprofit-development
+3. hopestand-marketplace-development
+```
+
+---
+
+## Step 2.1 — Install LocalWP
+
+1. Download and install **Local** for your computer operating system.
+2. Open Local after installation.
+3. Create an account only if you want to use Local’s connected services; it is not necessary for basic local development.
+4. Keep the default/preferred environment unless you have a specific hosting compatibility requirement.
+
+Local provides installers for Windows and macOS and supports creating local WordPress sites from the application. 
+
+---
+
+## Step 2.2 — Create the reference site
+
+1. In Local, select the **+** button to create a new site.
+2. Name the site:
+
+```text
+hopestand-original-reference
+```
+
+3. Select the preferred environment.
+4. Create a WordPress administrator username and strong password.
+5. Record the login details in your password manager.
+6. Select **Create Site**.
+7. After creation, select **Start Site**.
+8. Select **WP Admin**.
+9. Sign in to WordPress.
+
+This installation is your theme laboratory and visual reference.
+
+---
+
+## Step 2.3 — Install the original purchased theme
+
+Before uploading, locate the theme ZIP file you received from the theme marketplace or vendor.
+
+1. In WordPress, go to:
+
+```text
+Appearance → Themes
+```
+
+2. Select:
+
+```text
+Add New Theme
+```
+
+3. Select:
+
+```text
+Upload Theme
+```
+
+4. Choose the original theme ZIP file.
+5. Select:
+
+```text
+Install Now
+```
+
+6. Select:
+
+```text
+Activate
+```
+
+WordPress supports installing a theme by uploading a ZIP file through the Appearance → Themes screen, then activating it. 
+
+---
+
+## Step 2.4 — Install required plugins for the original theme
+
+Many premium themes require plugins for page builders, sliders, demo importers, contact forms, WooCommerce, custom widgets, or special blocks.
+
+1. After activating the theme, look for a notice such as:
+
+```text
+This theme requires/recommends the following plugins.
+```
+
+2. Install only the plugins the original theme requires for its intended features.
+3. If a plugin is supplied as a ZIP file, go to:
+
+```text
+Plugins → Add New Plugin → Upload Plugin
+```
+
+4. Upload the plugin ZIP.
+5. Install and activate it.
+6. Use license keys only in accordance with the vendor’s license terms.
+
+WordPress also supports installing plugins by uploading a ZIP file through the Plugins screen. 
+
+---
+
+## Step 2.5 — Import the original demo content, if available
+
+If the theme includes demo content:
+
+1. Read the theme documentation first.
+2. Import the demo only into this **local reference site**.
+3. Do not import demo content into production.
+4. Do not use vendor demo text, images, logos, or stock media on your public HopeStand website unless your license permits it.
+5. Record any import errors in your theme-feature inventory.
+
+Your objective is to reproduce:
+
+- Layouts
+- Components
+- User experience
+- Responsive behavior
+- Theme settings
+- WooCommerce styling
+
+Your objective is **not** to reuse vendor demo content as HopeStand content.
+
+---
+
+## Step 2.6 — Make a separate development site
+
+After the original reference site works:
+
+1. In Local, select **+** again.
+2. Create a second site named:
+
+```text
+hopestand-nonprofit-development
+```
+
+3. Use a fresh WordPress installation.
+4. Add your custom `hopestand-core-theme` into:
+
+```text
+wp-content/themes/
+```
+
+5. Activate your custom theme when it is ready.
+
+Later, create a third site:
+
+```text
+hopestand-marketplace-development
+```
+
+Local also supports creating reusable site blueprints after you have a base setup. You can use that later to start the marketplace development site with shared baseline settings, but do not use it until your core theme setup is stable. 
+
+---
+
+# Part 3 — Create the staging plan for both websites
+
+## Goal
+
+Define the route from your computer to the public website before you begin major development.
+
+Use this structure:
+
+| Environment | Nonprofit | Marketplace | Purpose |
+|---|---|---|---|
+| Reference | `hopestand-original-reference` | N/A | Study original purchased theme |
+| Local development | `hopestand-nonprofit-development` | `hopestand-marketplace-development` | Build safely on your computer |
+| Staging | Private host staging site | Private host staging site | Test before publishing |
+| Production | `www.hopestand.org` | `marketplace.hopestand.org` | Public live websites |
+
+---
+
+## Step 3.1 — Decide your hosting requirements
+
+Before you choose a host, confirm it can provide:
+
+```text
+Two independent WordPress installations
+A staging environment for each installation
+Automatic backups
+Manual backup restoration
+SSL certificates
+PHP and database support compatible with current WordPress/WooCommerce
+SFTP or SSH access
+Separate administrator accounts
+A clear process for staging-to-production deployment
+```
+
+You need two production installations:
+
+```text
+www.hopestand.org
+marketplace.hopestand.org
+```
+
+And two staging installations:
+
+```text
+staging.hopestand.org
+staging-marketplace.hopestand.org
+```
+
+You can also initially use host-provided staging URLs instead of public HopeStand subdomains.
+
+---
+
+## Step 3.2 — Write your deployment flow
+
+Put this workflow in your project documentation:
+
+```text
+1. Build locally.
+2. Commit code to GitHub.
+3. Deploy code to staging.
+4. Test staging.
+5. Back up production.
+6. Deploy approved changes to production.
+7. Test production immediately.
+8. Document the release and any rollback action.
+```
+
+Use this branch structure:
+
+```text
+main                 = production-ready code
+feature/theme-header = work in progress
+feature/woocommerce-cart = work in progress
+fix/mobile-menu      = bug fix
+```
+
+For example:
+
+```bash
+git checkout -b feature/theme-header
+```
+
+When the feature is working:
+
+```bash
+git add .
+git commit -m "Build responsive HopeStand header"
+git push -u origin feature/theme-header
+```
+
+When you are comfortable with Git, merge tested work into `main`.
+
+---
+
+## Step 3.3 — Set staging rules now
+
+Create these rules before your first staging deployment:
+
+### Staging rules
+
+```text
+• Staging must be password protected.
+• Staging must be blocked from search-engine indexing.
+• Staging must use test payment credentials only.
+• Staging must not contain real donor, customer, order, or payment data.
+• Staging emails should go only to test/admin inboxes.
+• Every production deployment requires a verified backup.
+• Every major change must be tested on mobile before deployment.
+• Production database changes require a rollback plan.
+```
+
+### Production rules
+
+```text
+• Never edit theme files directly in production.
+• Never test payment changes first in production.
+• Never update WordPress, WooCommerce, or major plugins without a backup.
+• Never use production customer data in local or staging environments.
+• Record the date, change, and result of each production release.
+```
+
+---
+
+## Step 3.4 — Create your staging-plan document
+
+Create a file named:
+
+```text
+staging-plan.md
+```
+
+Put this inside the private Git repository.
+
+Paste this starter content:
+
+```md
+# HopeStand Staging Plan
+
+## Production Websites
+- Nonprofit: https://www.hopestand.org
+- Marketplace: https://marketplace.hopestand.org
+
+## Local Development Sites
+- hopestand-original-reference
+- hopestand-nonprofit-development
+- hopestand-marketplace-development
+
+## Staging Websites
+- Nonprofit: staging.hopestand.org or host-provided private staging URL
+- Marketplace: staging-marketplace.hopestand.org or host-provided private staging URL
+
+## Deployment Flow
+Local development → GitHub → Staging → Testing → Backup Production → Production Release → Production Test
+
+## Staging Rules
+- Password protected
+- No search indexing
+- Test payment credentials only
+- No real customer or donor information
+- No public marketing campaigns directed to staging
+
+## Release Checklist
+- Backup verified
+- Theme tested
+- Plugins tested
+- Mobile tested
+- Forms tested
+- Checkout tested
+- Emails tested
+- Rollback plan recorded
+```
+
+Commit it:
+
+```bash
+git add staging-plan.md
+git commit -m "Add staging and deployment plan"
+git push
+```
+
+---
+
+# Part 4 — Create the theme-feature inventory spreadsheet
+
+## Goal
+
+Create one spreadsheet that shows every feature in the purchased theme and whether you have rebuilt and tested it.
+
+Use either:
+
+```text
+Google Sheets
+Microsoft Excel
+LibreOffice Calc
+```
+
+Name it:
+
+```text
+HopeStand Theme Feature Inventory.xlsx
+```
+
+Create these tabs:
+
+```text
+1. Dashboard
+2. Theme Features
+3. Templates
+4. WooCommerce
+5. Plugins and Dependencies
+6. Mobile and Accessibility
+7. Risks and Decisions
+```
+
+---
+
+## Step 4.1 — Create the “Theme Features” tab
+
+Add these column headings in Row 1:
+
+| Column | Heading |
+|---|---|
+| A | ID |
+| B | Area |
+| C | Page or Template |
+| D | Feature Name |
+| E | Original Theme Reference |
+| F | Desktop Screenshot |
+| G | Mobile Screenshot |
+| H | Functionality Description |
+| I | Editor Input or Settings |
+| J | Dependencies |
+| K | Priority |
+| L | Estimated Hours |
+| M | Status |
+| N | Tested |
+| O | Rebuilt in File/Component |
+| P | Notes |
+
+Use these status values:
+
+```text
+Not Started
+In Progress
+Needs Review
+Blocked
+Complete
+Not Needed
+```
+
+Use these priority values:
+
+```text
+P0 — Launch Blocking
+P1 — Important
+P2 — Useful
+P3 — Optional
+```
+
+---
+
+## Step 4.2 — Add your first theme features
+
+Use IDs that identify the component category.
+
+Example entries:
+
+| ID | Area | Feature Name | Priority | Status |
+|---|---|---|---|---|
+| GLB-001 | Global | Desktop header | P0 | Not Started |
+| GLB-002 | Global | Mobile navigation | P0 | Not Started |
+| GLB-003 | Global | Footer | P0 | Not Started |
+| HOM-001 | Homepage | Hero section | P0 | Not Started |
+| HOM-002 | Homepage | Program cards | P1 | Not Started |
+| HOM-003 | Homepage | Testimonial section | P1 | Not Started |
+| BLG-001 | Blog | Blog archive | P1 | Not Started |
+| BLG-002 | Blog | Single-post template | P1 | Not Started |
+| WOO-001 | WooCommerce | Shop archive | P0 | Not Started |
+| WOO-002 | WooCommerce | Single-product page | P0 | Not Started |
+| WOO-003 | WooCommerce | Cart page | P0 | Not Started |
+| WOO-004 | WooCommerce | Checkout page | P0 | Not Started |
+| WOO-005 | WooCommerce | Customer account page | P1 | Not Started |
+| ERR-001 | System | Search results page | P1 | Not Started |
+| ERR-002 | System | 404 page | P1 | Not Started |
+
+---
+
+## Step 4.3 — Record screenshots consistently
+
+Create folders on your computer:
+
+```text
+hopestand-theme-reference/
+  screenshots/
+    desktop/
+    mobile/
+```
+
+Use filenames like:
+
+```text
+GLB-001-desktop-header.png
+GLB-001-mobile-header.png
+HOM-001-desktop-hero.png
+HOM-001-mobile-hero.png
+WOO-003-desktop-cart.png
+WOO-003-mobile-cart.png
+```
+
+Then paste the filename—not necessarily the image itself—into the spreadsheet.
+
+Example:
+
+| ID | Desktop Screenshot | Mobile Screenshot |
+|---|---|---|
+| GLB-001 | `GLB-001-desktop-header.png` | `GLB-001-mobile-header.png` |
+
+This lets you compare your reproduction against the original theme quickly.
+
+---
+
+## Step 4.4 — Create the WooCommerce tab
+
+Use these columns:
+
+| ID | WooCommerce Screen | Feature | Original Behavior | Your Rebuild Method | Priority | Status | Test Case | Result |
+|---|---|---|---|---|---|---|---|---|
+
+Add these initial rows:
+
+```text
+WOO-001 | Shop archive | Product grid
+WOO-002 | Shop archive | Product sorting
+WOO-003 | Shop archive | Product category display
+WOO-004 | Single product | Image gallery
+WOO-005 | Single product | Product variations
+WOO-006 | Single product | Add-to-cart section
+WOO-007 | Cart | Quantity update
+WOO-008 | Cart | Coupon field
+WOO-009 | Checkout | Customer details form
+WOO-010 | Checkout | Payment method display
+WOO-011 | Checkout | Error messages
+WOO-012 | Account | Order history
+WOO-013 | Emails | Order-confirmation styling
+```
+
+For the “Test Case” column, use clear actions:
+
+```text
+Add a product variation to cart from a mobile device.
+Apply an invalid coupon code.
+Complete a test order with a successful payment.
+Attempt checkout with a required field missing.
+Review the order-confirmation email on desktop and mobile.
+```
+
+---
+
+## Step 4.5 — Create a simple dashboard
+
+In the **Dashboard** tab, create these labels:
+
+```text
+Total Features
+Complete
+In Progress
+Blocked
+Not Started
+P0 Features Complete
+WooCommerce Features Complete
+```
+
+If your Status column is `M` in the Theme Features tab, use formulas such as:
+
+```excel
+=COUNTA('Theme Features'!A2:A500)
+```
+
+```excel
+=COUNTIF('Theme Features'!M2:M500,"Complete")
+```
+
+```excel
+=COUNTIF('Theme Features'!M2:M500,"In Progress")
+```
+
+```excel
+=COUNTIF('Theme Features'!M2:M500,"Blocked")
+```
+
+```excel
+=COUNTIF('Theme Features'!M2:M500,"Not Started")
+```
+
+Your spreadsheet becomes the factual record of what “complete theme reproduction” means.
+
+---
+
+# Part 5 — Create a project board with all 26 weekly targets
+
+## Goal
+
+Create one GitHub Project board called:
+
+```text
+HopeStand Six-Month Build Plan
+```
+
+GitHub Projects supports table, board, and roadmap views, custom fields, filters, and project workflows. 
+
+---
+
+## Step 5.1 — Create the project board
+
+1. In GitHub, select your profile picture.
+2. Select **Your projects**.
+3. Select **New project**.
+4. Select the **Board** template.
+5. Name it:
+
+```text
+HopeStand Six-Month Build Plan
+```
+
+6. Set visibility to **Private**.
+7. Select **Create project**.
+
+GitHub’s current Project workflow allows you to start from a blank table, roadmap, or board, or use a template. 
+
+---
+
+## Step 5.2 — Set your board columns
+
+Create these status columns:
+
+```text
+Backlog
+Planned This Week
+In Progress
+Blocked
+Testing
+Done
+```
+
+Do not use more than six columns initially.
+
+---
+
+## Step 5.3 — Add project fields
+
+Create these custom fields:
+
+| Field | Type | Values |
+|---|---|---|
+| Week | Single select | W01 through W26 |
+| Area | Single select | Infrastructure, Core Theme, Nonprofit, Marketplace, Content, QA, Launch |
+| Priority | Single select | P0, P1, P2, P3 |
+| Estimate | Single select | 1 hour, 2–4 hours, 5–8 hours, 9–16 hours, 16+ hours |
+| Target Date | Date | Weekly completion date |
+| Definition of Done | Text | Clear completion standard |
+
+---
+
+## Step 5.4 — Add the 26 weekly target cards
+
+Create one card for each week. Assign each card the matching **Week** field and target date.
+
+| Week | Dates | Card title |
+|---|---|---|
+| W01 | Nov. 9–15, 2026 | Set up local development, GitHub, reference site, and project system |
+| W02 | Nov. 16–22 | Complete original-theme audit and feature inventory |
+| W03 | Nov. 23–29 | Create HopeStand core theme skeleton and design system |
+| W04 | Nov. 30–Dec. 6 | Build global styles, typography, forms, buttons, and layout grid |
+| W05 | Dec. 7–13 | Build header, footer, desktop navigation, and mobile navigation |
+| W06 | Dec. 14–20 | Build core reusable content sections |
+| W07 | Dec. 21–27 | Build remaining specialty components and preserve schedule buffer |
+| W08 | Dec. 28–Jan. 3, 2027 | Build page, blog, archive, search, and 404 templates |
+| W09 | Jan. 4–10 | Build nonprofit homepage |
+| W10 | Jan. 11–17 | Build nonprofit core pages, contact form, and donation pathway |
+| W11 | Jan. 18–24 | Add real content, policies, SEO basics, and mobile refinements |
+| W12 | Jan. 25–31 | Test and prepare nonprofit website for launch |
+| W13 | Feb. 1–7 | Launch nonprofit site and establish marketplace installation |
+| W14 | Feb. 8–14 | Build WooCommerce shop, category, and product-card layouts |
+| W15 | Feb. 15–21 | Build single-product pages and product interactions |
+| W16 | Feb. 22–28 | Build cart, checkout, customer account, and email styling |
+| W17 | Mar. 1–7 | Configure payments, shipping, taxes, inventory, and order workflow |
+| W18 | Mar. 8–14 | Complete WooCommerce test orders and checkout testing |
+| W19 | Mar. 15–21 | Close high-priority theme-feature parity gaps |
+| W20 | Mar. 22–28 | Build marketplace pages, policies, FAQ, and support content |
+| W21 | Mar. 29–Apr. 4 | Add real products, categories, images, pricing, and inventory |
+| W22 | Apr. 5–11 | Conduct marketplace operations and content review |
+| W23 | Apr. 12–18 | Complete backups, security, accessibility, performance, and monitoring |
+| W24 | Apr. 19–25 | Run private beta testing and capture launch-blocking issues |
+| W25 | Apr. 26–May 2 | Fix beta issues and conduct final launch readiness review |
+| W26 | May 3–8 | Launch marketplace and monitor production closely |
+
+---
+
+## Step 5.5 — Create weekly sub-tasks
+
+Each weekly card should contain small tasks.
+
+For example, under **W05 — Build header, footer, desktop navigation, and mobile navigation**, add:
+
+```text
+[ ] Capture original header screenshots on desktop
+[ ] Capture original header screenshots on mobile
+[ ] Identify header layout variants
+[ ] Build desktop header markup
+[ ] Build desktop navigation styling
+[ ] Build mobile-menu button
+[ ] Build mobile-menu panel
+[ ] Test keyboard navigation
+[ ] Test on a real phone
+[ ] Add screenshots to theme-feature inventory
+[ ] Commit code to GitHub
+[ ] Move completed work to Testing
+```
+
+Use this standard definition of done for every development task:
+
+```text
+• Code is committed to Git.
+• It works locally.
+• It was checked on desktop and mobile.
+• It was recorded in the feature inventory.
+• It does not create a known critical issue.
+```
+
+---
+
+# What to do first
+
+Do not attempt all five items in one sitting.
+
+Use this order:
+
+## Today
+
+```text
+1. Create your GitHub account.
+2. Create the private hopestand-core-theme repository.
+3. Install LocalWP.
+4. Create hopestand-original-reference.
+5. Install the purchased theme locally.
+```
+
+## Next work session
+
+```text
+1. Install the original theme’s required plugins.
+2. Import the demo content, if appropriate.
+3. Take your first screenshots.
+4. Create the feature-inventory spreadsheet.
+5. Add the first 15–20 theme features.
+```
+
+## Third work session
+
+```text
+1. Create the GitHub Project board.
+2. Add all 26 weekly targets.
+3. Create your custom hopestand-core-theme folder.
+4. Add the five starter files.
+5. Initialize Git and push the first commit.
+```
+
+Once you have completed **Part 1 and Part 2**, the best next step is to begin the theme audit together: identify the original theme’s framework, its required plugins, its WooCommerce overrides, and every feature you need to reproduce.
