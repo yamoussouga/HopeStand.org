@@ -819,3 +819,336 @@ Then begin building only these three items:
 3. The HopeStand header, footer, colors, and typography  
 
 That gives both sites a professional foundation without overwhelming you.
+
+
+
+
+#####################################
+
+
+
+## BLUF
+
+A **six-month target is achievable but aggressive** if you commit about **18–25 focused hours per week**, keep the marketplace to a **HopeStand-managed store** for Version 1, and avoid adding multi-vendor/seller automation before launch.
+
+Your six-month finish line should be:
+
+```text
+By May 8, 2027:
+• Fully rebuilt HopeStand theme with WooCommerce support
+• Nonprofit website live and stable
+• Marketplace store live and stable
+• Shop, cart, checkout, payments, shipping, emails, policies, and support process tested
+• No open marketplace/vendor self-service yet
+```
+
+The open-marketplace features—seller registration, commissions, vendor dashboards, split payouts, seller verification, and dispute workflows—become **Phase 2 after launch**.
+
+---
+
+# Time commitment
+
+Plan for:
+
+```text
+18–25 hours per week
+26 weeks
+Approximately 470–650 focused hours
+```
+
+A practical weekly rhythm:
+
+| Day | Focus | Hours |
+|---|---|---:|
+| Monday | Planning, theme analysis, documentation | 2–3 |
+| Tuesday | Core development | 3–4 |
+| Wednesday | Core development | 3–4 |
+| Thursday | WooCommerce or site-content development | 3–4 |
+| Friday | Testing, bug fixing, Git commits, documentation | 2–3 |
+| Saturday | Deep-work build session | 5–7 |
+| Sunday | Rest, catch-up, or review only | Optional |
+
+**Rule:** Every week must end with something visible, tested, and committed to Git.
+
+---
+
+# Scope lock: what is included by May 8, 2027
+
+## Included
+
+### Theme
+- Faithful reproduction of the purchased theme’s layouts and core components
+- Responsive desktop, tablet, and mobile behavior
+- Header, footer, menus, typography, colors, buttons, forms, cards, blog templates, archives, search, and 404 page
+- WooCommerce styling and templates
+- Documentation for your custom theme
+
+### Nonprofit site
+- Home
+- About
+- Programs / impact pages
+- Donation pathway
+- Contact form
+- Get involved / volunteer page
+- Blog or news section, if part of the original theme
+- Privacy and site-policy pages
+- Marketplace link
+
+### Marketplace store
+- Home
+- Shop
+- Product categories
+- Product pages
+- Cart
+- Checkout
+- Customer account
+- Payments
+- Shipping
+- Order emails
+- Returns/refund policy
+- Customer-support contact process
+- Basic inventory and order-management workflow
+
+## Deferred until after May 8
+
+```text
+Open seller registration
+Vendor dashboards
+Commission calculations
+Automatic seller payouts
+Multi-vendor order splitting
+Advanced vendor verification
+Complex delivery-driver integration
+Mobile application
+Custom marketplace mobile app
+Advanced loyalty program
+Large blog/resource library
+Major custom integrations
+```
+
+---
+
+# Six-month weekly schedule
+
+## Phase 1 — Project setup and theme investigation  
+### Weeks 1–3: November 9–29, 2026
+
+| Week | Dates | Target |
+|---|---|---|
+| **1** | Nov. 9–15 | Set up local development environment, hosting account, staging environment, Git repositories, password manager, and project task board. Install the original theme locally. |
+| **2** | Nov. 16–22 | Perform a complete theme audit. Screenshot every page, header, footer, widget, demo section, mobile view, Customizer option, and WooCommerce view. Create a feature-parity spreadsheet. |
+| **3** | Nov. 23–29 | Confirm theme and bundled-plugin license terms. Create the custom `hopestand-core-theme` repository and theme skeleton. Define colors, fonts, spacing, responsive breakpoints, and component naming rules. |
+
+### End-of-phase target
+
+By November 29, you should have:
+
+```text
+• A working local WordPress environment
+• Original theme safely installed for reference
+• A private Git repository
+• A complete feature inventory
+• A written list of what “complete reproduction” means
+• Your custom HopeStand theme started
+```
+
+---
+
+## Phase 2 — Build the reusable HopeStand core theme  
+### Weeks 4–8: November 30, 2026–January 3, 2027
+
+| Week | Dates | Target |
+|---|---|---|
+| **4** | Nov. 30–Dec. 6 | Build theme foundation: global styles, typography, containers, grid, spacing, buttons, links, forms, and responsive rules. |
+| **5** | Dec. 7–13 | Rebuild the header, desktop navigation, announcement bar, footer, search, and mobile navigation. Test on a real phone. |
+| **6** | Dec. 14–20 | Rebuild core content sections: hero, image-and-text, calls-to-action, cards, statistics, testimonials, team profiles, and accordions. |
+| **7** | Dec. 21–27 | Build remaining reusable components from the original theme: galleries, tabs, video sections, pricing tables, sliders only if essential, and any special theme widgets. Use this as a lighter holiday/buffer week. |
+| **8** | Dec. 28–Jan. 3 | Build the fundamental WordPress templates: standard page, full-width page, sidebar page, blog index, single post, archive, search results, and 404 page. |
+
+### End-of-phase target
+
+By January 3, you should be able to create a page that closely matches the original theme using your own HopeStand theme components.
+
+```text
+• Header and footer complete
+• Mobile menu complete
+• Global styles complete
+• Major reusable content sections complete
+• Blog and standard page templates complete
+• Basic responsive testing complete
+```
+
+---
+
+## Phase 3 — Build and launch the nonprofit website  
+### Weeks 9–12: January 4–31, 2027
+
+| Week | Dates | Target |
+|---|---|---|
+| **9** | Jan. 4–10 | Build the nonprofit homepage. Include mission, impact/program cards, donation call-to-action, “Get Involved” section, and marketplace link. |
+| **10** | Jan. 11–17 | Build About, Programs, Get Involved, Contact, and Donate pages. Add the contact form, anti-spam protection, email delivery, and donation workflow. |
+| **11** | Jan. 18–24 | Add real text, images, logo files, metadata, accessibility labels, page titles, navigation, privacy page, and site notices. Complete mobile refinements. |
+| **12** | Jan. 25–31 | Nonprofit quality-assurance week. Test all links, contact forms, donation process, desktop/mobile views, loading speed, backups, security, and staging deployment. Fix high-priority issues. |
+
+### End-of-phase target
+
+By January 31:
+
+```text
+• Nonprofit website is ready for launch
+• Contact form and donation pathway work
+• Website works on mobile
+• Backup and security baseline are in place
+• Content is real—not placeholder text
+• All critical links and buttons are tested
+```
+
+If testing goes well, launch the nonprofit site in the first week of February.
+
+---
+
+## Phase 4 — Rebuild WooCommerce integration  
+### Weeks 13–18: February 1–March 14, 2027
+
+| Week | Dates | Target |
+|---|---|---|
+| **13** | Feb. 1–7 | Launch or finalize the nonprofit site. Set up the separate marketplace WordPress installation and connect `marketplace.hopestand.org` in staging first. Install WooCommerce and create test products. |
+| **14** | Feb. 8–14 | Rebuild the shop page, category archives, product cards, sale badges, product search, and any essential filtering from the original theme. |
+| **15** | Feb. 15–21 | Rebuild the single-product page: image gallery, product variations, price display, quantity selector, add-to-cart, related products, reviews if used, and mobile product layout. |
+| **16** | Feb. 22–28 | Rebuild cart, mini-cart, checkout, thank-you/order-confirmation page, customer account area, and WooCommerce email styling. |
+| **17** | Mar. 1–7 | Configure marketplace operations: payment provider, shipping zones/rates, taxes as applicable, order notifications, inventory settings, coupons, refunds, and basic customer-support workflow. |
+| **18** | Mar. 8–14 | Run full test purchases using test products. Test successful payment, failed payment, product variations, coupons, out-of-stock items, order emails, mobile checkout, cancellation, and refund procedures. |
+
+### End-of-phase target
+
+By March 14:
+
+```text
+• Theme’s core WooCommerce appearance is reproduced
+• Product, cart, checkout, and account pages work
+• You can place and manage test orders
+• Order emails work
+• Payment and shipping approach is defined
+• The marketplace is functioning as a store in staging
+```
+
+---
+
+## Phase 5 — Complete feature parity and marketplace content  
+### Weeks 19–22: March 15–April 11, 2027
+
+| Week | Dates | Target |
+|---|---|---|
+| **19** | Mar. 15–21 | Compare your rebuilt theme against the original feature inventory. Close the highest-priority theme gaps. Do not add low-value decorative features before critical functionality is complete. |
+| **20** | Mar. 22–28 | Build the marketplace homepage, marketplace About page, FAQ, shipping page, returns/refunds page, customer support page, privacy policy, and terms and conditions. |
+| **21** | Mar. 29–Apr. 4 | Add real marketplace products, categories, images, descriptions, prices, stock settings, shipping details, and product SEO information. |
+| **22** | Apr. 5–11 | Perform marketplace content and operations review. Verify that each product has accurate pricing, image, description, availability, weight/dimensions if needed, shipping information, and return guidance. |
+
+### End-of-phase target
+
+By April 11:
+
+```text
+• Marketplace content is real and customer-ready
+• Core theme reproduction is substantially complete
+• Each product can be purchased and fulfilled
+• Policies and customer-support information are published
+• No placeholder product data remains
+```
+
+---
+
+## Phase 6 — Hardening, accessibility, performance, and beta testing  
+### Weeks 23–24: April 12–25, 2027
+
+| Week | Dates | Target |
+|---|---|---|
+| **23** | Apr. 12–18 | Complete technical hardening: backups, restore test, update process, administrator security, spam controls, performance optimization, image optimization, caching, and monitoring. |
+| **24** | Apr. 19–25 | Run a private beta. Ask 5–10 trusted people to use the nonprofit site and complete a marketplace test purchase. Collect problems in one list; fix only launch-blocking issues first. |
+
+### Private beta test script
+
+Ask testers to complete these actions:
+
+```text
+1. Find HopeStand’s mission.
+2. Locate the donation option.
+3. Submit the contact form.
+4. Find a marketplace product.
+5. Add it to cart.
+6. Change the quantity.
+7. Complete a test checkout.
+8. Locate shipping and return information.
+9. Use the site from a phone.
+10. Report anything confusing, slow, broken, or unclear.
+```
+
+---
+
+## Phase 7 — Launch preparation and release  
+### Weeks 25–26: April 26–May 8, 2027
+
+| Week | Dates | Target |
+|---|---|---|
+| **25** | Apr. 26–May 2 | Fix beta findings, conduct final theme parity review, test backup restoration again, review payment settings, verify email deliverability, and prepare launch communications. |
+| **26** | May 3–8 | Final production launch. Confirm domain routing, SSL, analytics, forms, payment flow, order emails, mobile behavior, and support contact path. Monitor closely and fix only urgent launch issues. |
+
+---
+
+# Your definition of “done” on May 8
+
+Do not judge success by whether every imaginable feature exists. Judge it by whether a real visitor can use both websites safely and clearly.
+
+## Nonprofit site is done when
+
+- A visitor understands HopeStand’s mission within 30 seconds.
+- They can learn about programs and work.
+- They can contact HopeStand.
+- They can donate or follow the donation process.
+- They can find the marketplace.
+- The site works on phones and desktop.
+- You can update content without breaking the layout.
+
+## Marketplace is done when
+
+- A customer can find a product.
+- They can see accurate product information and price.
+- They can add a product to cart.
+- They can complete checkout.
+- They receive an order confirmation.
+- You receive an order notification.
+- You can manage orders and inventory.
+- Customers can find shipping, return, refund, privacy, and support information.
+- The site works on mobile.
+- You have tested backup restoration and updates.
+
+---
+
+# Weekly operating rules
+
+Use these rules to protect your deadline:
+
+1. **No new major feature after Week 20** without removing something else.
+2. **No work directly on production.** Build locally, test on staging, then deploy.
+3. **Commit to Git at least twice per week.**
+4. **Test on a real phone every week.**
+5. **Keep one “known issues” list.** Do not try to fix every small visual issue immediately.
+6. **If a problem blocks you for more than two sessions, document it and move on temporarily.**
+7. **Use established plugins for security, backups, payments, forms, ecommerce, and email.** Do not build those critical systems from scratch.
+8. **Reserve Week 24–26 for stabilization.** Do not spend them adding exciting new features.
+
+---
+
+# First deliverable: by November 15, 2026
+
+At the end of your first week, you should have these five things:
+
+```text
+1. A private Git repository for hopestand-core-theme
+2. A local WordPress installation with the original theme installed
+3. A staging plan for both websites
+4. A theme-feature inventory spreadsheet
+5. A project board listing all 26 weekly targets
+```
+
+That gives you a disciplined path from commitment to a usable HopeStand nonprofit site and marketplace store by **May 8, 2027**.
