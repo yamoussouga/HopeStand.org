@@ -31,7 +31,9 @@ GitHub Project board       → all 26 weeks and weekly tasks
 Spreadsheet                → feature-by-feature theme reproduction checklist
 ```
 
-I will use **GitHub** for the private repository and **LocalWP (Local)** for local WordPress development because they are practical for a beginner and work well together. Local’s own guidance recommends keeping the repository focused on the theme or plugin code you are responsible for—not the entire WordPress installation. 
+I will use **GitHub** for the private repository and **LocalWP (Local)** for local WordPress development because they are practical 
+for a beginner and work well together. Local’s own guidance recommends keeping the repository focused on the theme or plugin code you 
+are responsible for—not the entire WordPress installation. 
 
 ---
 
